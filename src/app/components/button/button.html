@@ -1,0 +1,7 @@
+<button
+  class="bg-emerald-500 h-10 py-2 px-3 rounded text-white cursor-pointer hover:bg-emerald-800 transition-colors disabled:pointer-events-none disabled:bg-emerald-800"
+  (clicked)="handleClick()"
+  [disabled]="disabled()"
+>
+  <ng-content></ng-content>
+</button>
