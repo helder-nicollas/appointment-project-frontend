@@ -3,7 +3,7 @@
     <label for="name">Name</label>
     <ui-input id="name" formControlName="name" name="name" />
     <ui-feedback
-      [show]="!!form.get('name')?.hasError('required') && submitted"
+      [show]="!!form.get('name')?.hasError('required') && submitted()"
       message="Name is required"
     />
   </div>
@@ -11,25 +11,22 @@
     <label for="username">Username</label>
     <ui-input id="username" formControlName="username" />
     <ui-feedback
-      [show]="!!form.get('username')?.hasError('required') && submitted"
-      message="Name is required"
+      [show]="!!form.get('username')?.hasError('required') && submitted()"
+      message="Username is required"
     />
   </div>
   <div class="space-y-1">
     <label for="email">E-mail</label>
     <ui-input id="email" formControlName="email" />
-    <ui-feedback
-      [show]="!!form.get('email')?.hasError('required') && submitted"
-      message="E-mail is required"
-    />
+    <ui-feedback [show]="!!form.get('email')?.invalid && submitted()" message="E-mail is invalid" />
   </div>
   <div class="space-y-1">
     <label for="password">Password</label>
     <ui-input id="password" type="password" formControlName="password" />
     <ui-feedback
-      [show]="!!form.get('password')?.hasError('required') && submitted"
+      [show]="!!form.get('password')?.hasError('required') && submitted()"
       message="Password is required"
     />
   </div>
-  <ui-button type="submit" [disabled]="submitting">Enviar</ui-button>
+  <ui-button type="submit" class="mt-2" [disabled]="submitting()">Enviar</ui-button>
 </form>

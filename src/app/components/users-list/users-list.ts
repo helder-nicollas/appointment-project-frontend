@@ -1,9 +1,5 @@
-import { Component, resource } from '@angular/core';
-
-const getUsers = async () => {
-  const response = await fetch('http://localhost:8080/users');
-  return (await response.json()) as User[];
-};
+import { Component, inject } from '@angular/core';
+import { UsersStore } from '../../services/users-store';
 
 @Component({
   selector: 'users-list',
@@ -12,7 +8,6 @@ const getUsers = async () => {
   styleUrl: './users-list.css',
 })
 export class UsersList {
-  public query = resource({
-    loader: () => getUsers(),
-  });
+  private store = inject(UsersStore);
+  public state = this.store.state;
 }

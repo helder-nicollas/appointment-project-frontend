@@ -1,4 +1,4 @@
-import { Component, forwardRef, HostBinding, input, signal } from '@angular/core';
+import { Component, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { twMerge } from 'tailwind-merge';
 
@@ -24,29 +24,39 @@ export class Input implements ControlValueAccessor {
   public name = input('');
   public type = input('');
   public placeholder = input('');
+  public autocomplete = input('on');
   public disabled = signal(false);
-  public value = '';
+  public value = signal('');
   public onChange = (_: string) => {};
   public onTouched = () => {};
 
-  @HostBinding('class')
-  get mergedClass() {
-    return twMerge('border rounded block', this.class());
+  public get mergedClass() {
+    return twMerge('border rounded py-0.5 px-1 block', this.class());
   }
 
-  writeValue(value: string): void {
-    this.value = value ?? '';
+  public writeValue(value: string): void {
+    this.value.set(value ?? '');
   }
 
-  registerOnChange(fn: OnChangeFunction): void {
+  public registerOnChange(fn: OnChangeFunction): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: OnTouchedFunction): void {
+  public registerOnTouched(fn: OnTouchedFunction): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled.set(isDisabled);
+  }
+
+  public handleInput(event: Event) {
+    const v = (event.target as HTMLInputElement).value;
+    this.value.set(v);
+    this.onChange(v);
+  }
+
+  public handleBlur() {
+    this.onTouched();
   }
 }

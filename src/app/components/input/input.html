@@ -1,9 +1,11 @@
 <input
-  [attr.name]="name()"
+  [class]="mergedClass"
+  [name]="name()"
+  [autocomplete]="autocomplete()"
   [type]="type()"
   [placeholder]="placeholder()"
   [disabled]="disabled()"
-  [value]="value"
-  (input)="onChange($any($event.target).value)"
-  (blur)="onTouched()"
+  [value]="value()"
+  (input)="handleInput($event)"
+  (blur)="handleBlur()"
 />

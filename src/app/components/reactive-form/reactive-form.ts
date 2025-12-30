@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Feedback } from '../feedback/feedback';
 import { Input } from '../input/input';
 import { Button } from '../button/button';
 import { Api } from '../../services/api';
 import { finalize } from 'rxjs';
+import { UsersStore } from '../../services/users-store';
 
 @Component({
   selector: 'reactive-form',
@@ -16,29 +17,36 @@ import { finalize } from 'rxjs';
 export class ReactiveForm implements OnInit {
   private api = inject(Api);
   private formBuilder = inject(FormBuilder);
+  private store = inject(UsersStore);
   public form!: FormGroup;
-  public submitted = false;
-  public submitting = false;
+  public submitted = signal(false);
+  public submitting = signal(false);
 
   public ngOnInit() {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
       username: ['', [Validators.required]],
-      email: ['', [Validators.email]],
+      email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
   public submit() {
-    this.submitted = true;
-    this.submitting = true;
+    this.submitted.set(true);
     if (this.form.invalid) return;
+
+    this.submitting.set(true);
 
     this.api
       .post('/users', this.form.value)
-      .pipe(finalize(() => (this.submitting = false)))
-      .subscribe();
+      .pipe(finalize(() => this.submitting.set(false)))
+      .subscribe({
+        next: () => {
+          this.store.refresh();
+          this.form.reset();
 
-    console.log(this.form.value);
+          this.submitted.set(false);
+        },
+      });
   }
 }
