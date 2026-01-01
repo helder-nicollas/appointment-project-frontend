@@ -6,18 +6,20 @@ import { Button } from '../button/button';
 import { Api } from '../../services/api';
 import { finalize } from 'rxjs';
 import { UsersStore } from '../../services/users-store';
+import { GradientCard } from '../gradient-card/gradient-card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'reactive-form',
-  imports: [ReactiveFormsModule, Feedback, Input, Button],
+  imports: [ReactiveFormsModule, Feedback, Input, Button, GradientCard],
   standalone: true,
   templateUrl: './reactive-form.html',
-  styleUrl: './reactive-form.css',
 })
 export class ReactiveForm implements OnInit {
   private api = inject(Api);
   private formBuilder = inject(FormBuilder);
   private store = inject(UsersStore);
+  private router = inject(Router);
   public form!: FormGroup;
   public submitted = signal(false);
   public submitting = signal(false);
@@ -44,6 +46,7 @@ export class ReactiveForm implements OnInit {
         next: () => {
           this.store.refresh();
           this.form.reset();
+          this.router.navigate(['login']);
 
           this.submitted.set(false);
         },

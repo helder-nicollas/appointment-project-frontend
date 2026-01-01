@@ -1,32 +1,38 @@
-<form action="" [formGroup]="form" (ngSubmit)="submit()">
-  <div class="space-y-1">
-    <label for="name">Name</label>
-    <ui-input id="name" formControlName="name" name="name" />
-    <ui-feedback
-      [show]="!!form.get('name')?.hasError('required') && submitted()"
-      message="Name is required"
-    />
-  </div>
-  <div class="space-y-1">
-    <label for="username">Username</label>
-    <ui-input id="username" formControlName="username" />
-    <ui-feedback
-      [show]="!!form.get('username')?.hasError('required') && submitted()"
-      message="Username is required"
-    />
-  </div>
-  <div class="space-y-1">
-    <label for="email">E-mail</label>
-    <ui-input id="email" formControlName="email" />
-    <ui-feedback [show]="!!form.get('email')?.invalid && submitted()" message="E-mail is invalid" />
-  </div>
-  <div class="space-y-1">
-    <label for="password">Password</label>
-    <ui-input id="password" type="password" formControlName="password" />
-    <ui-feedback
-      [show]="!!form.get('password')?.hasError('required') && submitted()"
-      message="Password is required"
-    />
-  </div>
-  <ui-button type="submit" class="mt-2" [disabled]="submitting()">Enviar</ui-button>
-</form>
+<ui-gradient-card class="w-full min-w-md">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="w-full space-y-3">
+    <h1 class="text-emerald-400 text-center font-bold text-3xl">Crie sua conta</h1>
+    <div class="space-y-1">
+      <label for="name">Name</label>
+      <ui-input id="name" formControlName="name" name="name" />
+      <ui-feedback
+        [show]="!!form.get('name')?.hasError('required') && submitted()"
+        message="Name is required"
+      />
+    </div>
+    <div class="space-y-1">
+      <label for="username">Username</label>
+      <ui-input id="username" formControlName="username" />
+      <ui-feedback
+        [show]="!!form.get('username')?.hasError('required') && submitted()"
+        message="Username is required"
+      />
+    </div>
+    <div class="space-y-1">
+      <label for="email">E-mail</label>
+      <ui-input id="email" formControlName="email" />
+      <ui-feedback
+        [show]="!!form.get('email')?.invalid && submitted()"
+        message="E-mail is invalid"
+      />
+    </div>
+    <div class="space-y-1">
+      <label for="password">Password</label>
+      <ui-input id="password" type="password" formControlName="password" />
+      <ui-feedback
+        [show]="!!form.get('password')?.hasError('required') && submitted()"
+        message="Password is required"
+      />
+    </div>
+    <ui-button type="submit" class="mt-2 w-full" [disabled]="submitting()">Criar conta</ui-button>
+  </form>
+</ui-gradient-card>

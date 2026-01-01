@@ -1,0 +1,39 @@
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.gradient-card {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  position: relative;
+  padding: 24px 32px;
+  box-sizing: border-box;
+  color: #FFF;
+  background-clip: padding-box;
+  border: solid 5px transparent;
+  border-radius: 1em;
+}
+
+.gradient-card::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: inherit;
+  background: linear-gradient(var(--angle), aqua, green);
+  z-index: -1;
+  animation: spin 5s infinite linear;
+  filter: blur(10px);
+}
+
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}

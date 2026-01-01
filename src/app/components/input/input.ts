@@ -31,7 +31,7 @@ export class Input implements ControlValueAccessor {
   public onTouched = () => {};
 
   public get mergedClass() {
-    return twMerge('border rounded py-0.5 px-1 block', this.class());
+    return twMerge('border rounded py-2 px-2 block w-full', this.class());
   }
 
   public writeValue(value: string): void {

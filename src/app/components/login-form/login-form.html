@@ -1,0 +1,14 @@
+<ui-gradient-card class="w-full min-w-md">
+  <form (ngSubmit)="submit()" [formGroup]="form" class="w-full space-y-3">
+    <h1 class="text-emerald-400 text-center font-bold text-3xl">Faça seu login</h1>
+    <div class="space-y-1">
+      <label for="email">E-mail</label>
+      <ui-input id="email" formControlName="email" />
+    </div>
+    <div class="space-y-1">
+      <label for="password">Password</label>
+      <ui-input id="password" formControlName="password" type="password" />
+    </div>
+    <ui-button type="submit" class="w-full">Entrar</ui-button>
+  </form>
+</ui-gradient-card>
