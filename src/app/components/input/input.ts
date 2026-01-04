@@ -23,6 +23,7 @@ export class Input implements ControlValueAccessor {
   public class = input('');
   public name = input('');
   public type = input('');
+  public id = input('');
   public placeholder = input('');
   public autocomplete = input('on');
   public disabled = signal(false);

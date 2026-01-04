@@ -11,7 +11,8 @@ import { Button } from '../button/button';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Select } from '../select/select';
 
 @Component({
   selector: 'appointment-form',
@@ -23,6 +24,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
     Input,
     Button,
     ReactiveFormsModule,
+    Select,
   ],
   templateUrl: './appointment-form.html',
   styleUrl: './appointment-form.css',
@@ -44,7 +46,9 @@ export class AppointmentForm {
     },
   );
   public form = this.fb.group({
-    startDate: [''],
+    startDate: ['', [Validators.required]],
+    startTime: [''],
+    endTime: [''],
     endDate: [''],
     description: [''],
     clientId: [''],
@@ -52,6 +56,14 @@ export class AppointmentForm {
   });
 
   public submit() {
-    console.log(this.form.value);
+    const startDate = new Date(this.form.value.startDate!);
+    console.log(this.form.value.startTime?.split(':'));
+    startDate.setHours(
+      Number(this.form.value.startTime!.split(':')[0]),
+      Number(this.form.value.startTime!.split(':')[1]),
+    );
+
+    console.log(startDate.toISOString());
+    const data = { ...this.form.value, startDate };
   }
 }
