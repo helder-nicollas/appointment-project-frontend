@@ -1,6 +1,5 @@
-import { effect, inject, Injectable, resource, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { Api } from './api';
-import { httpResource } from '@angular/common/http';
 
 type State = {
   loading: boolean;

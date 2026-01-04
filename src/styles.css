@@ -12,3 +12,9 @@ body {
   font-family: sans-serif;
   @apply bg-background text-foreground;
 }
+
+:root {
+  --mdc-theme-primary: #10b981;
+  --mdc-theme-secondary: #3b82f6;
+  --mdc-theme-error: #ef4444;
+}

@@ -1,0 +1,38 @@
+<form action="" (ngSubmit)="submit()" [formGroup]="form">
+  <h2 mat-dialog-title>Delete all elements?</h2>
+  <mat-dialog-content>
+    <div class="space-y-1">
+      <label for="">Start date</label>
+      <ui-input type="date" formControlName="startDate" />
+    </div>
+    <div class="space-y-1">
+      <label for="">End date</label>
+      <ui-input type="date" formControlName="endDate" />
+    </div>
+    <div class="space-y-1">
+      <label for="">Description</label>
+      <ui-input type="text" formControlName="description" />
+    </div>
+    <div class="space-y-1">
+      <label for="clientId">Client</label>
+      <select class="block w-full" id="clientId" formControlName="clientId">
+        @for (user of query().data; track user) {
+          <option [value]="user.id">{{ user.name }}</option>
+        }
+      </select>
+    </div>
+    <div class="space-y-1">
+      <label for="owner">Owner</label>
+      <select class="block w-full" id="ownerId" formControlName="ownerId">
+        @for (user of query().data; track user) {
+          <option [value]="user.id">{{ user.name }}</option>
+        }
+      </select>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="flex gap-2">
+    <ui-button mat-dialog-close>Cancel</ui-button>
+
+    <ui-button [mat-dialog-close]="true" type="submit">Create</ui-button>
+  </mat-dialog-actions>
+</form>

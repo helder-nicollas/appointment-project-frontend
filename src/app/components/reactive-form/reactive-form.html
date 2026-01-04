@@ -6,7 +6,7 @@
       <ui-input id="name" formControlName="name" name="name" />
       <ui-feedback
         [show]="!!form.get('name')?.hasError('required') && submitted()"
-        message="Name is required"
+        [message]="form.get('name')?.errors | formError"
       />
     </div>
     <div class="space-y-1">
@@ -14,7 +14,7 @@
       <ui-input id="username" formControlName="username" />
       <ui-feedback
         [show]="!!form.get('username')?.hasError('required') && submitted()"
-        message="Username is required"
+        [message]="form.get('username')?.errors | formError"
       />
     </div>
     <div class="space-y-1">
@@ -22,7 +22,7 @@
       <ui-input id="email" formControlName="email" />
       <ui-feedback
         [show]="!!form.get('email')?.invalid && submitted()"
-        message="E-mail is invalid"
+        [message]="form.get('email')?.errors | formError"
       />
     </div>
     <div class="space-y-1">
@@ -30,7 +30,15 @@
       <ui-input id="password" type="password" formControlName="password" />
       <ui-feedback
         [show]="!!form.get('password')?.hasError('required') && submitted()"
-        message="Password is required"
+        [message]="form.get('password')?.errors | formError"
+      />
+    </div>
+    <div class="space-y-1">
+      <label for="confirmPassword">Confirm Password</label>
+      <ui-input id="confirmPassword" type="password" formControlName="confirmPassword" />
+      <ui-feedback
+        [show]="!!form.hasError('passwordsMismatch') && submitted()"
+        message="Password mismatch"
       />
     </div>
     <ui-button type="submit" class="mt-2 w-full" [disabled]="submitting()">Criar conta</ui-button>

@@ -4,11 +4,19 @@
     <div class="space-y-1">
       <label for="email">E-mail</label>
       <ui-input id="email" formControlName="email" />
+      <ui-feedback
+        [show]="!!form.get('email')?.invalid && submitted()"
+        [message]="form.get('email')?.errors | formError"
+      />
     </div>
     <div class="space-y-1">
       <label for="password">Password</label>
       <ui-input id="password" formControlName="password" type="password" />
+      <ui-feedback
+        [show]="!!form.get('password')?.invalid && submitted()"
+        [message]="form.get('password')?.errors | formError"
+      />
     </div>
-    <ui-button type="submit" class="w-full">Entrar</ui-button>
+    <ui-button type="submit" class="w-full" [disabled]="submitting()">Entrar</ui-button>
   </form>
 </ui-gradient-card>

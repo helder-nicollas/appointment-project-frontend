@@ -16,7 +16,7 @@ export class Button {
 
   public get mergedClass() {
     return twMerge(
-      'bg-emerald-500 h-10 py-2 px-3 rounded text-white cursor-pointer hover:bg-emerald-800 transition-colors disabled:pointer-events-none disabled:bg-emerald-800',
+      'bg-emerald-500 h-10 py-2 px-3 rounded text-white cursor-pointer hover:opacity-75 focus:opacity-75 transition-colors disabled:pointer-events-none disabled:opacity-75',
       this.class(),
     );
   }

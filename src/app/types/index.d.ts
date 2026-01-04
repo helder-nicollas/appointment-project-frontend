@@ -1,13 +1,13 @@
 interface Post {
-    id: number;
-    userId: number;
-    title: string;
-    body: string;
+  id: number;
+  userId: number;
+  title: string;
+  body: string;
 }
 
 interface User {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
+  id: number;
+  name: string;
+  username: string;
+  email: string;
 }

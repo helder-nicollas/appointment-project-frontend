@@ -19,18 +19,18 @@ export class Api {
   private baseUrl = environment.API_URL;
 
   public get<T>(url: string, options?: Omit<HttpOptions, 'body'>) {
-    return this.http.get<T>(`${this.baseUrl}${url}`, options);
+    return this.http.get<T>(`${this.baseUrl}${url}`, { ...options, withCredentials: true });
   }
 
   public post<T, TBody = unknown>(url: string, body: TBody, options?: HttpOptions<TBody>) {
-    return this.http.post<T>(`${this.baseUrl}${url}`, body, options);
+    return this.http.post<T>(`${this.baseUrl}${url}`, body, { ...options, withCredentials: true });
   }
 
   public put<T, TBody = unknown>(url: string, body: TBody, options?: HttpOptions<TBody>) {
-    return this.http.put<T>(`${this.baseUrl}${url}`, body, options);
+    return this.http.put<T>(`${this.baseUrl}${url}`, body, { ...options, withCredentials: true });
   }
 
   public delete<T>(url: string, options?: Omit<HttpOptions, 'body'>) {
-    return this.http.delete<T>(`${this.baseUrl}${url}`, options);
+    return this.http.delete<T>(`${this.baseUrl}${url}`, { ...options, withCredentials: true });
   }
 }
