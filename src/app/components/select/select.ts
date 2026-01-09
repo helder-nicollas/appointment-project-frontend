@@ -30,7 +30,7 @@ export class Select implements ControlValueAccessor {
   public onTouched = () => {};
 
   public get mergedClass() {
-    return twMerge('border rounded py-2 px-2 block w-full', this.class());
+    return twMerge('border rounded py-2 px-2 block w-full ui-select', this.class());
   }
 
   public writeValue(value: string): void {

@@ -1,1 +1,27 @@
-<ui-button (click)="openDialog()">Abrir Dialog</ui-button>
+<ui-container>
+  <ui-button (clicked)="openModal()">Modal</ui-button>
+  <table>
+    <thead>
+      <tr>
+        <th>Starts at</th>
+        <th>Ends at</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (appointment of query().data; track $index) {
+        <tr>
+          <td>{{ appointment.startDate | formatDate }}</td>
+          <td>{{ appointment.endDate | formatDate }}</td>
+          <td>{{ appointment.description }}</td>
+          <td>
+            <span (click)="deleteAppointment(appointment.id)">
+              <lucide-icon [img]="Delete" class="text-red-500" />
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</ui-container>

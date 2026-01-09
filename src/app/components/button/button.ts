@@ -1,25 +1,27 @@
-import { Component, input, output } from '@angular/core';
-import { twMerge } from 'tailwind-merge';
+import { Component, computed, input, output } from '@angular/core';
+import { ButtonVariants, buttonVariants } from './button-variants';
 
 @Component({
   selector: 'ui-button',
   imports: [],
   standalone: true,
   templateUrl: './button.html',
-  styleUrl: './button.css',
 })
 export class Button {
   public clicked = output<void>();
   public disabled = input(false);
   public type = input<'button' | 'reset' | 'submit'>('button');
   public class = input('');
+  public variant = input<ButtonVariants['variant'] | undefined>(undefined);
+  public size = input<ButtonVariants['size'] | undefined>(undefined);
 
-  public get mergedClass() {
-    return twMerge(
-      'bg-emerald-500 h-10 py-2 px-3 rounded text-white cursor-pointer hover:opacity-75 focus:opacity-75 transition-colors disabled:pointer-events-none disabled:opacity-75',
-      this.class(),
-    );
-  }
+  public mergedClass = computed(() =>
+    buttonVariants({
+      variant: this.variant(),
+      size: this.size(),
+      class: this.class(),
+    }),
+  );
 
   public handleClick() {
     this.clicked.emit();

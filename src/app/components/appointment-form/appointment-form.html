@@ -1,50 +1,81 @@
-<form action="" (ngSubmit)="submit()" [formGroup]="form">
-  <h2 mat-dialog-title>Delete all elements?</h2>
-  <mat-dialog-content>
+<form action="" (ngSubmit)="submit()" [formGroup]="form" class="w-96">
+  <div>
+    <h1 class="text-xl font-semibold">Create Appointment</h1>
+  </div>
+  <div class="my-3 space-y-2">
     <div class="flex gap-2">
-      <div class="space-y-1">
+      <div class="space-y-1 w-full">
         <label for="">Start date</label>
         <ui-input type="date" formControlName="startDate" />
+        <ui-feedback
+          [show]="!!form.get('startDate')?.errors && submitted()"
+          [message]="form.get('startDate')?.errors | formError"
+        />
       </div>
       <div class="space-y-1">
         <label for="">Time</label>
         <ui-input type="time" formControlName="startTime" />
+        <ui-feedback
+          [show]="!!form.get('startTime')?.errors && submitted()"
+          [message]="form.get('startTime')?.errors | formError"
+        />
       </div>
     </div>
     <div class="flex gap-2">
-      <div class="space-y-1">
+      <div class="space-y-1 w-full">
         <label for="">End date</label>
         <ui-input type="date" formControlName="endDate" />
+        <ui-feedback
+          [show]="!!form.get('endDate')?.errors && submitted()"
+          [message]="form.get('endDate')?.errors | formError"
+        />
       </div>
       <div class="space-y-1">
         <label for="">Time</label>
         <ui-input type="time" formControlName="endTime" />
+        <ui-feedback
+          [show]="!!form.get('endTime')?.errors && submitted()"
+          [message]="form.get('endTime')?.errors | formError"
+        />
       </div>
     </div>
     <div class="space-y-1">
       <label for="">Description</label>
       <ui-input type="text" formControlName="description" />
+      <ui-feedback
+        [show]="!!form.get('description')?.errors && submitted()"
+        [message]="form.get('description')?.errors | formError"
+      />
     </div>
     <div class="space-y-1">
       <label for="clientId">Client</label>
       <ui-select class="block w-full" id="clientId" formControlName="clientId">
-        @for (user of query().data; track user) {
-          <option [value]="user.id">{{ user.name }}</option>
+        <ui-select-option />
+        @for (user of query().data; track user.id) {
+          <ui-select-option [value]="user.id">{{ user.name }}</ui-select-option>
         }
       </ui-select>
+      <ui-feedback
+        [show]="!!form.get('clientId')?.errors && submitted()"
+        [message]="form.get('clientId')?.errors | formError"
+      />
     </div>
     <div class="space-y-1">
       <label for="owner">Owner</label>
       <ui-select class="block w-full" id="ownerId" formControlName="ownerId">
-        @for (user of query().data; track user) {
-          <option [value]="user.id">{{ user.name }}</option>
+        <ui-select-option />
+        @for (user of query().data; track user.id) {
+          <ui-select-option [value]="user.id">{{ user.name }}</ui-select-option>
         }
       </ui-select>
+      <ui-feedback
+        [show]="!!form.get('ownerId')?.errors && submitted()"
+        [message]="form.get('ownerId')?.errors | formError"
+      />
     </div>
-  </mat-dialog-content>
-  <mat-dialog-actions class="flex gap-2">
-    <ui-button mat-dialog-close>Cancel</ui-button>
-
-    <ui-button [mat-dialog-close]="true" type="submit">Create</ui-button>
-  </mat-dialog-actions>
+  </div>
+  <div class="flex justify-end gap-3">
+    <ui-button type="button" variant="danger" (clicked)="close()">Cancel</ui-button>
+    <ui-button type="submit">Save</ui-button>
+  </div>
 </form>

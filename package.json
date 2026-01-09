@@ -26,16 +26,18 @@
   "private": true,
   "packageManager": "npm@11.4.1",
   "dependencies": {
-    "@angular/cdk": "^21.0.5",
+    "@angular/cdk": "^21.0.6",
     "@angular/common": "^21.0.0",
     "@angular/compiler": "^21.0.0",
     "@angular/core": "^21.0.0",
     "@angular/forms": "^21.0.0",
-    "@angular/material": "^21.0.5",
     "@angular/platform-browser": "^21.0.0",
     "@angular/router": "^21.0.0",
+    "@floating-ui/dom": "^1.6.0",
+    "lucide-angular": "^0.562.0",
     "rxjs": "~7.8.0",
     "tailwind-merge": "^3.4.0",
+    "tailwind-variants": "^3.2.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

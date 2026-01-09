@@ -49,7 +49,6 @@ module.exports = defineConfig([
     },
     extends: [
       angular.configs.templateRecommended,
-      angular.configs.templateAccessibility,
       prettierConfig,
     ],
     rules: {

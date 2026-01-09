@@ -11,3 +11,12 @@ interface User {
   username: string;
   email: string;
 }
+
+interface Appointment {
+  id: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  clientId: string;
+  ownerId: string;
+}
