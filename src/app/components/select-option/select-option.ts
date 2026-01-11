@@ -9,6 +9,8 @@ import { twMerge } from 'tailwind-merge';
 export class SelectOption {
   public value = input<string | number>('');
   public class = input('');
+  public disabled = input(false);
+  public default = input(false);
 
   public get mergedClass() {
     return twMerge('bg-background', this.class());

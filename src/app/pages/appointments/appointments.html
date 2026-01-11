@@ -1,11 +1,16 @@
 <ui-container>
-  <ui-button (clicked)="openModal()">Modal</ui-button>
-  <table>
+  <ui-button (clicked)="openCreateApppointment()" class="flex items-center gap-1">
+    <lucide-icon [img]="Plus" class="w-5 box-border" />
+    Criar agendamento
+  </ui-button>
+  <ui-table>
     <thead>
       <tr>
-        <th>Starts at</th>
+        <th class="text-left">Starts at</th>
         <th>Ends at</th>
-        <th>Description</th>
+        <th class="min-w-56">Description</th>
+        <th class="min-w-32">Client</th>
+        <th class="min-w-32">Owner</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -14,14 +19,19 @@
         <tr>
           <td>{{ appointment.startDate | formatDate }}</td>
           <td>{{ appointment.endDate | formatDate }}</td>
-          <td>{{ appointment.description }}</td>
+          <td class="text-center">{{ appointment.description }}</td>
+          <td class="text-center">{{ appointment.client?.name }}</td>
+          <td class="text-center">{{ appointment.owner?.name }}</td>
           <td>
-            <span (click)="deleteAppointment(appointment.id)">
-              <lucide-icon [img]="Delete" class="text-red-500" />
+            <span
+              (click)="openDeleteAppointment(appointment.id)"
+              class="hover:opacity-55 transition-all cursor-pointer w-10 block"
+            >
+              <lucide-icon [img]="Delete" class="text-red-500 w-10 box-border" />
             </span>
           </td>
         </tr>
       }
     </tbody>
-  </table>
+  </ui-table>
 </ui-container>

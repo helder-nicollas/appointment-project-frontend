@@ -1,1 +1,5 @@
+@for (toast of toasts(); track $index) {
+  <ui-toast [message]="toast.message" [id]="toast.id" [bottom]="toastService.getBottom($index)" />
+}
+
 <router-outlet />

@@ -16,7 +16,6 @@ import { DialogRef } from '@angular/cdk/dialog';
   selector: 'appointment-form',
   imports: [Input, Button, ReactiveFormsModule, Select, SelectOption, Feedback, FormErrorPipe],
   templateUrl: './appointment-form.html',
-  styleUrl: './appointment-form.css',
 })
 export class AppointmentForm implements FormState {
   private api = inject(Api);
@@ -52,6 +51,7 @@ export class AppointmentForm implements FormState {
 
   public submit() {
     this.submitted.set(true);
+
     if (this.form.invalid) return;
 
     this.submitting.set(true);

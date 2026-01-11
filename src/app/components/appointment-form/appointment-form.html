@@ -1,7 +1,6 @@
 <form action="" (ngSubmit)="submit()" [formGroup]="form" class="w-96">
-  <div>
-    <h1 class="text-xl font-semibold">Create Appointment</h1>
-  </div>
+  <h1 class="text-xl font-semibold">Create Appointment</h1>
+
   <div class="my-3 space-y-2">
     <div class="flex gap-2">
       <div class="space-y-1 w-full">
@@ -41,7 +40,7 @@
     </div>
     <div class="space-y-1">
       <label for="">Description</label>
-      <ui-input type="text" formControlName="description" />
+      <ui-input type="text" formControlName="description" placeholder="Ex. my event" />
       <ui-feedback
         [show]="!!form.get('description')?.errors && submitted()"
         [message]="form.get('description')?.errors | formError"
@@ -50,7 +49,7 @@
     <div class="space-y-1">
       <label for="clientId">Client</label>
       <ui-select class="block w-full" id="clientId" formControlName="clientId">
-        <ui-select-option />
+        <ui-select-option [disabled]="true" [default]="true">Select an option</ui-select-option>
         @for (user of query().data; track user.id) {
           <ui-select-option [value]="user.id">{{ user.name }}</ui-select-option>
         }
@@ -63,7 +62,7 @@
     <div class="space-y-1">
       <label for="owner">Owner</label>
       <ui-select class="block w-full" id="ownerId" formControlName="ownerId">
-        <ui-select-option />
+        <ui-select-option [disabled]="true" [default]="true">Select an option</ui-select-option>
         @for (user of query().data; track user.id) {
           <ui-select-option [value]="user.id">{{ user.name }}</ui-select-option>
         }

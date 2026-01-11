@@ -19,4 +19,11 @@ interface Appointment {
   description: string;
   clientId: string;
   ownerId: string;
+  client?: User;
+  owner?: User;
+}
+
+interface Toast {
+  id: string;
+  message: string;
 }

@@ -4,8 +4,14 @@
   --color-background: #0f172A;
   --color-foreground: #FFFFFF;
   --color-secondary: #172441;
+  --color-secondary-foreground: #FFFFFF;
   --color-danger: #910c0c;
   --color-danger-foreground: #FFFFFF;
+  --color-success: #059669;
+  --color-success-foreground: #FFFFFF;
+  --color-muted: #000000;
+
+  --color-border: #6b7280;
 }
 
 body {
@@ -15,10 +21,14 @@ body {
 
 
 .cdk-dialog-container {
-  @apply bg-secondary py-8 px-10 rounded-md;
+  @apply bg-secondary py-6 px-8 rounded-md border-border;
   display: block;
   filter: drop-shadow(0 0 10px rgba(white, 0.5));
   animation: dialog-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast {
+  animation: toast-enter 200ms ease-in-out forwards;
 }
 
 @keyframes dialog-enter {
