@@ -3,7 +3,7 @@ import { Container } from '../../components/container/container';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
-import { FormatDate } from '../../core/format-date';
+import { FormatDate } from '../../core/format-date-pipe';
 import { LucideAngularModule, Delete, Plus } from 'lucide-angular';
 import { Button } from '../../components/button/button';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';

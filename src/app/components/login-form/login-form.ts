@@ -13,6 +13,7 @@ import { GradientCard } from '../gradient-card/gradient-card';
 import { Feedback } from '../feedback/feedback';
 import { FormState } from '../../types/form';
 import { FormErrorPipe } from '../../core/form-error-pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-form',
@@ -24,6 +25,7 @@ import { FormErrorPipe } from '../../core/form-error-pipe';
 export class LoginForm implements OnInit, FormState {
   private formBuilder = inject(FormBuilder);
   private api = inject(Api);
+  private router = inject(Router);
   public form!: FormGroup;
   public submitted = signal(false);
   public submitting = signal(false);
@@ -44,6 +46,7 @@ export class LoginForm implements OnInit, FormState {
     this.api.post('/login', this.form.value).subscribe({
       next: () => {
         this.submitting.set(false);
+        this.router.navigate(['/appointments']);
       },
       error: () => {
         this.submitting.set(false);
