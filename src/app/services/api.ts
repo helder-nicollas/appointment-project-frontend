@@ -22,7 +22,7 @@ export class Api {
     return this.http.get<T>(`${this.baseUrl}${url}`, { ...options, withCredentials: true });
   }
 
-  public post<T, TBody = unknown>(url: string, body: TBody, options?: HttpOptions<TBody>) {
+  public post<T, TBody = unknown>(url: string, body?: TBody, options?: HttpOptions<TBody>) {
     return this.http.post<T>(`${this.baseUrl}${url}`, body, { ...options, withCredentials: true });
   }
 

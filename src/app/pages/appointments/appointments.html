@@ -1,16 +1,17 @@
 <ui-container>
-  <ui-button (clicked)="openCreateApppointment()" class="flex items-center gap-1">
+  <h1 class="text-4xl font-bold mb-10">Agendamentos</h1>
+  <ui-button (clicked)="openCreateApppointment()" class="flex items-center gap-1 mb-3">
     <lucide-icon [img]="Plus" class="w-5 box-border" />
     Criar agendamento
   </ui-button>
   <ui-table>
     <thead>
       <tr>
-        <th class="text-left">Starts at</th>
-        <th>Ends at</th>
-        <th class="min-w-56">Description</th>
-        <th class="min-w-32">Client</th>
-        <th class="min-w-32">Owner</th>
+        <th class="text-left">Começa</th>
+        <th>Termina</th>
+        <th class="min-w-56">Descrição</th>
+        <th class="min-w-32">Cliente</th>
+        <th class="min-w-32">Criador</th>
         <th>Actions</th>
       </tr>
     </thead>
