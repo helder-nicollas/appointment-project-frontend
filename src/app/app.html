@@ -2,4 +2,22 @@
   <ui-toast [message]="toast.message" [id]="toast.id" [bottom]="toastService.getBottom($index)" />
 }
 
+<ui-container>
+  <form action="">
+    <ui-multiple-combobox (selected)="selectUser($event)">
+      <ui-combobox-trigger [dropdownTriggerFor]="combobox" widthStrategy="match-trigger">
+        {{ `${counter} usuários selecionados` }}
+      </ui-combobox-trigger>
+      <ui-combobox-content #combobox>
+        <ui-combobox-search (searched)="searched($event)" />
+        @for (user of filtered(); track user.id) {
+          <ui-combobox-option [value]="`${user.id}`">
+            {{ user.name }}
+          </ui-combobox-option>
+        }
+      </ui-combobox-content>
+    </ui-multiple-combobox>
+  </form>
+</ui-container>
+
 <router-outlet />

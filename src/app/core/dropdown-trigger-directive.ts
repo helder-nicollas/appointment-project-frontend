@@ -1,9 +1,11 @@
 /* eslint-disable @angular-eslint/directive-selector */
 import { Directive, ElementRef, inject, Input, OnDestroy, ViewContainerRef } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { DropdownPanel } from './types/dropdown-panel';
+import { DropdownPanel } from '../components/dropdown/types/dropdown-panel';
 import { mergeWith, Subscription } from 'rxjs';
 import { TemplatePortal } from '@angular/cdk/portal';
+
+type WidthStrategy = 'match-trigger' | 'custom';
 
 @Directive({
   selector: '[dropdownTriggerFor]',
@@ -14,10 +16,12 @@ import { TemplatePortal } from '@angular/cdk/portal';
 export class DropdownTriggerForDirective implements OnDestroy {
   private viewContainerRef = inject(ViewContainerRef);
   private overlay = inject(Overlay);
-  private elementRef = inject(ElementRef<HTMLElement>);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private dropdownClosingActionsSub = Subscription.EMPTY;
   private isDropdownOpen = false;
   private overlayRef!: OverlayRef;
+  @Input()
+  public widthStrategy: WidthStrategy = 'match-trigger';
 
   @Input('dropdownTriggerFor')
   public dropdownPanel!: DropdownPanel;
@@ -25,23 +29,25 @@ export class DropdownTriggerForDirective implements OnDestroy {
   public toggleDropdown() {
     if (this.isDropdownOpen) return this.destroyDropdown();
 
-    return this.openDropdown();
+    this.openDropdown();
   }
 
   public openDropdown(): void {
     this.isDropdownOpen = true;
     this.overlayRef = this.overlay.create({
+      width: this.getResponsiveWidth(),
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
       scrollStrategy: this.overlay.scrollStrategies.close(),
       positionStrategy: this.overlay
         .position()
         .flexibleConnectedTo(this.elementRef)
+        .withFlexibleDimensions(true)
         .withPositions([
           {
-            originX: 'end',
+            originX: 'start',
             originY: 'bottom',
-            overlayX: 'end',
+            overlayX: 'start',
             overlayY: 'top',
             offsetY: 8,
           },
@@ -57,6 +63,20 @@ export class DropdownTriggerForDirective implements OnDestroy {
     this.dropdownClosingActionsSub = this.dropdownClosingActions().subscribe(() =>
       this.destroyDropdown(),
     );
+    this.dropdownPanel.setOpen(true);
+  }
+
+  private getResponsiveWidth() {
+    if (this.widthStrategy == 'match-trigger') {
+      const triggerRect = this.elementRef.nativeElement.getBoundingClientRect();
+
+      const viewportWidth = window.innerWidth;
+      const margin = 16;
+
+      return Math.min(triggerRect.width, viewportWidth - margin * 2);
+    }
+
+    return undefined;
   }
 
   private dropdownClosingActions() {
@@ -75,9 +95,11 @@ export class DropdownTriggerForDirective implements OnDestroy {
     this.dropdownClosingActionsSub.unsubscribe();
     this.isDropdownOpen = false;
     this.overlayRef.detach();
+    this.overlayRef.dispose();
+    this.dropdownPanel.setOpen(false);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy() {
     if (this.overlayRef) {
       this.overlayRef.dispose();
     }

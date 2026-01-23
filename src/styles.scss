@@ -1,17 +1,40 @@
 @use "tailwindcss";
 
 @theme {
-  --color-background: #0f172A;
-  --color-foreground: #FFFFFF;
-  --color-secondary: #172441;
-  --color-secondary-foreground: #FFFFFF;
-  --color-danger: #910c0c;
-  --color-danger-foreground: #FFFFFF;
-  --color-success: #059669;
-  --color-success-foreground: #FFFFFF;
-  --color-muted: #000000;
+  --color-background: oklch(0.17 0.04 256);
+  --color-foreground: oklch(1 0 0);
 
-  --color-border: #6b7280;
+  --color-secondary: oklch(0.22 0.05 258);
+  --color-secondary-foreground: oklch(1 0 0);
+
+  --color-danger: oklch(0.38 0.17 29);
+  --color-danger-foreground: oklch(1 0 0);
+
+  --color-success: oklch(0.53 0.17 165);
+  --color-success-foreground: oklch(1 0 0);
+
+  --color-muted: oklch(0 0 0);
+
+  --color-border: oklch(0.55 0.03 255);
+  --color-ring: oklch(0.56 0 0);
+
+  --color-input: oklch(0.22 0.05 258);
+
+
+
+
+
+  --animate-dropdown: dropdown 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  @keyframes dropdown {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
 }
 
 body {
@@ -41,3 +64,5 @@ body {
     transform: translateY(0) scale(1);
   }
 }
+
+

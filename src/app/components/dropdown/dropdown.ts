@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  Output,
+  signal,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { DropdownPanel } from './types/dropdown-panel';
+import { twMerge } from 'tailwind-merge';
 
 @Component({
   selector: 'ui-dropdown',
@@ -13,4 +22,14 @@ export class Dropdown implements DropdownPanel {
   public templateRef!: TemplateRef<any>;
   @Output()
   public closed = new EventEmitter();
+  public class = input('');
+  public open = signal(false);
+
+  public get mergedClass() {
+    return twMerge('', this.class());
+  }
+
+  public setOpen(value: boolean) {
+    this.open.set(value);
+  }
 }
