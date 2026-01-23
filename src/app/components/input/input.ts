@@ -1,4 +1,13 @@
-import { Component, forwardRef, input, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  forwardRef,
+  inject,
+  input,
+  signal,
+  AfterViewInit,
+  Renderer2,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { twMerge } from 'tailwind-merge';
 
@@ -17,9 +26,10 @@ type OnChangeFunction = (_value: string) => void;
     },
   ],
   templateUrl: './input.html',
-  styleUrl: './input.css',
 })
-export class Input implements ControlValueAccessor {
+export class Input implements ControlValueAccessor, AfterViewInit {
+  private host = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
+  private renderer = inject(Renderer2);
   public class = input('');
   public name = input('');
   public type = input('');
@@ -32,7 +42,10 @@ export class Input implements ControlValueAccessor {
   public onTouched = () => {};
 
   public get mergedClass() {
-    return twMerge('border rounded py-2 px-2 block w-full', this.class());
+    return twMerge(
+      'border rounded-md py-2 px-2 block w-full focus-visible:ring-2 ring-ring outline-none border-border bg-input text-sm aria-invalid:border-danger',
+      this.class(),
+    );
   }
 
   public writeValue(value: string): void {
@@ -59,5 +72,16 @@ export class Input implements ControlValueAccessor {
 
   public handleBlur() {
     this.onTouched();
+  }
+
+  public ngAfterViewInit() {
+    const input = this.host.nativeElement.querySelector('input');
+    if (!input) return;
+
+    Array.from(this.host.nativeElement.attributes).forEach((attr) => {
+      if (attr.name.startsWith('aria-')) {
+        this.renderer.setAttribute(input, attr.name, attr.value);
+      }
+    });
   }
 }

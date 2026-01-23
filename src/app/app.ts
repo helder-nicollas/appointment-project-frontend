@@ -2,13 +2,6 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastService } from './services/toast-service';
 import { Toast } from './components/toast/toast';
-import { ComboboxContent } from './components/combobox/combobox-content/combobox-content';
-import { ComboboxOption } from './components/combobox/combobox-option/combobox-option';
-import { DropdownTriggerForDirective } from './core/dropdown-trigger-directive';
-import { ComboboxSearch } from './components/combobox/combobox-search/combobox-search';
-import { ComboboxTrigger } from './components/combobox/combobox-trigger/combobox-trigger';
-import { MultipleCombobox } from './components/combobox/multiple-combobox';
-import { Container } from './components/container/container';
 
 type User = {
   id: number;
@@ -17,17 +10,7 @@ type User = {
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    Toast,
-    ComboboxOption,
-    DropdownTriggerForDirective,
-    ComboboxContent,
-    ComboboxSearch,
-    ComboboxTrigger,
-    MultipleCombobox,
-    Container,
-  ],
+  imports: [RouterOutlet, Toast],
   standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css',

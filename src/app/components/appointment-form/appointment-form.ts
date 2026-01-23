@@ -5,8 +5,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Select } from '../select/select';
-import { SelectOption } from '../select-option/select-option';
 import { FormState } from '../../types/form';
 import { Feedback } from '../feedback/feedback';
 import { FormErrorPipe } from '../../core/form-error-pipe';
@@ -14,7 +12,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'appointment-form',
-  imports: [Input, Button, ReactiveFormsModule, Select, SelectOption, Feedback, FormErrorPipe],
+  imports: [Input, Button, ReactiveFormsModule, Feedback, FormErrorPipe],
   templateUrl: './appointment-form.html',
 })
 export class AppointmentForm implements FormState {

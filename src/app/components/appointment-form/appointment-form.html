@@ -46,32 +46,6 @@
         [message]="form.get('description')?.errors | formError"
       />
     </div>
-    <div class="space-y-1">
-      <label for="clientId">Client</label>
-      <ui-select class="block w-full" id="clientId" formControlName="clientId">
-        <ui-select-option [disabled]="true" [default]="true">Select an option</ui-select-option>
-        @for (user of query().data; track user.id) {
-          <ui-select-option [value]="user.id">{{ user.name }}</ui-select-option>
-        }
-      </ui-select>
-      <ui-feedback
-        [show]="!!form.get('clientId')?.errors && submitted()"
-        [message]="form.get('clientId')?.errors | formError"
-      />
-    </div>
-    <div class="space-y-1">
-      <label for="owner">Owner</label>
-      <ui-select class="block w-full" id="ownerId" formControlName="ownerId">
-        <ui-select-option [disabled]="true" [default]="true">Select an option</ui-select-option>
-        @for (user of query().data; track user.id) {
-          <ui-select-option [value]="user.id">{{ user.name }}</ui-select-option>
-        }
-      </ui-select>
-      <ui-feedback
-        [show]="!!form.get('ownerId')?.errors && submitted()"
-        [message]="form.get('ownerId')?.errors | formError"
-      />
-    </div>
   </div>
   <div class="flex justify-end gap-3">
     <ui-button type="button" variant="danger" (clicked)="close()">Cancel</ui-button>

@@ -11,6 +11,6 @@ export class GradientCard {
   public class = input('');
 
   get mergedClass() {
-    return twMerge('gradient-card bg-slate-800', this.class());
+    return twMerge('gradient-card bg-secondary', this.class());
   }
 }
