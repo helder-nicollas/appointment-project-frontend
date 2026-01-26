@@ -1,54 +1,77 @@
-<form action="" (ngSubmit)="submit()" [formGroup]="form" class="w-96">
-  <h1 class="text-xl font-semibold">Create Appointment</h1>
-
-  <div class="my-3 space-y-2">
-    <div class="flex gap-2">
-      <div class="space-y-1 w-full">
-        <label for="">Start date</label>
-        <ui-input type="date" formControlName="startDate" />
-        <ui-feedback
-          [show]="!!form.get('startDate')?.errors && submitted()"
-          [message]="form.get('startDate')?.errors | formError"
-        />
+<form action="" (ngSubmit)="submit()" [formGroup]="form">
+  <section class="my-3 space-y-2">
+    <div class="flex gap-4 w-full">
+      <div class="flex gap-2 w-full">
+        <div class="space-y-1 w-full">
+          <ui-label for="">Start date</ui-label>
+          <ui-input type="date" formControlName="startDate" />
+          <ui-feedback
+            [show]="!!form.get('startDate')?.errors && submitted()"
+            [message]="form.get('startDate')?.errors | formError"
+          />
+        </div>
+        <div class="space-y-1">
+          <ui-label for="">Time</ui-label>
+          <ui-input type="time" formControlName="startTime" />
+          <ui-feedback
+            [show]="!!form.get('startTime')?.errors && submitted()"
+            [message]="form.get('startTime')?.errors | formError"
+          />
+        </div>
       </div>
-      <div class="space-y-1">
-        <label for="">Time</label>
-        <ui-input type="time" formControlName="startTime" />
-        <ui-feedback
-          [show]="!!form.get('startTime')?.errors && submitted()"
-          [message]="form.get('startTime')?.errors | formError"
-        />
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <div class="space-y-1 w-full">
-        <label for="">End date</label>
-        <ui-input type="date" formControlName="endDate" />
-        <ui-feedback
-          [show]="!!form.get('endDate')?.errors && submitted()"
-          [message]="form.get('endDate')?.errors | formError"
-        />
-      </div>
-      <div class="space-y-1">
-        <label for="">Time</label>
-        <ui-input type="time" formControlName="endTime" />
-        <ui-feedback
-          [show]="!!form.get('endTime')?.errors && submitted()"
-          [message]="form.get('endTime')?.errors | formError"
-        />
+      <div class="flex gap-2 w-full">
+        <div class="space-y-1 w-full">
+          <ui-label for="">End date</ui-label>
+          <ui-input type="date" formControlName="endDate" />
+          <ui-feedback
+            [show]="!!form.get('endDate')?.errors && submitted()"
+            [message]="form.get('endDate')?.errors | formError"
+          />
+        </div>
+        <div class="space-y-1">
+          <ui-label for="">Time</ui-label>
+          <ui-input type="time" formControlName="endTime" />
+          <ui-feedback
+            [show]="!!form.get('endTime')?.errors && submitted()"
+            [message]="form.get('endTime')?.errors | formError"
+          />
+        </div>
       </div>
     </div>
     <div class="space-y-1">
-      <label for="">Description</label>
-      <ui-input type="text" formControlName="description" placeholder="Ex. my event" />
+      <ui-label for="">Description</ui-label>
+      <ui-textarea formControlName="description" placeholder="Ex. my event" rows="10" />
       <ui-feedback
         [show]="!!form.get('description')?.errors && submitted()"
         [message]="form.get('description')?.errors | formError"
       />
     </div>
-  </div>
-  <div class="flex justify-end gap-3">
-    <ui-button type="button" variant="danger" (clicked)="close()">Cancel</ui-button>
-    <ui-button type="submit">Save</ui-button>
-  </div>
+  </section>
+
+  <section class="space-y-4">
+    <h3 class="text-xl font-semibold">Serviços desejados</h3>
+
+    <div class="grid grid-cols-4 gap-4">
+      @for (service of services; track service.id) {
+        <div
+          class="bg-secondary max-w-60 px-4 py-3 rounded ring-1 ring-ring space-y-1 transition-all"
+        >
+          <p class="font-bold">
+            {{ service.description }}
+          </p>
+
+          <p>R$ 0,00</p>
+        </div>
+      }
+    </div>
+
+    <div class="bg-secondary px-4 py-2 rounded flex justify-between">
+      <p class="text-lg font-bold">Total</p>
+      <p class="text-lg font-bold">R$ 0,00</p>
+    </div>
+  </section>
+
+  <section class="flex justify-end gap-3">
+    <ui-button type="submit" variant="success">Save</ui-button>
+  </section>
 </form>

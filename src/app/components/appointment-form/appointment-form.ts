@@ -8,19 +8,79 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormState } from '../../types/form';
 import { Feedback } from '../feedback/feedback';
 import { FormErrorPipe } from '../../core/form-error-pipe';
-import { DialogRef } from '@angular/cdk/dialog';
+import { Textarea } from '../textarea/textarea';
+import { Label } from '../label/label';
+
+type Service = {
+  id: string;
+  description: string;
+  basePrice: number;
+};
 
 @Component({
   selector: 'appointment-form',
-  imports: [Input, Button, ReactiveFormsModule, Feedback, FormErrorPipe],
+  imports: [Input, Button, ReactiveFormsModule, Feedback, FormErrorPipe, Textarea, Label],
   templateUrl: './appointment-form.html',
 })
 export class AppointmentForm implements FormState {
   private api = inject(Api);
   private fb = inject(FormBuilder);
-  private dialogRef = inject(DialogRef);
   public submitted = signal(false);
   public submitting = signal(false);
+  public formServices: Service[] = [];
+
+  public services = [
+    {
+      id: 'srv-001',
+      description: 'Manutenção preventiva de sistemas',
+      basePrice: 150.0,
+    },
+    {
+      id: 'srv-002',
+      description: 'Instalação de software corporativo',
+      basePrice: 300.0,
+    },
+    {
+      id: 'srv-003',
+      description: 'Suporte técnico remoto',
+      basePrice: 120.0,
+    },
+    {
+      id: 'srv-004',
+      description: 'Consultoria em infraestrutura de TI',
+      basePrice: 450.0,
+    },
+    {
+      id: 'srv-005',
+      description: 'Backup e recuperação de dados',
+      basePrice: 200.0,
+    },
+    {
+      id: 'srv-006',
+      description: 'Auditoria de segurança da informação',
+      basePrice: 600.0,
+    },
+    {
+      id: 'srv-007',
+      description: 'Monitoramento de servidores',
+      basePrice: 180.0,
+    },
+    {
+      id: 'srv-008',
+      description: 'Desenvolvimento de funcionalidade sob demanda',
+      basePrice: 800.0,
+    },
+    {
+      id: 'srv-009',
+      description: 'Treinamento técnico para equipes',
+      basePrice: 350.0,
+    },
+    {
+      id: 'srv-010',
+      description: 'Otimização de performance de aplicações',
+      basePrice: 400.0,
+    },
+  ];
   public query = toSignal(
     this.api.get<User[]>('/users').pipe(
       map((data) => ({ loading: false, data })),
@@ -42,10 +102,6 @@ export class AppointmentForm implements FormState {
     clientId: ['', [Validators.required]],
     ownerId: ['', [Validators.required]],
   });
-
-  public close() {
-    this.dialogRef.close();
-  }
 
   public submit() {
     this.submitted.set(true);

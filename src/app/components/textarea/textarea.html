@@ -1,0 +1,11 @@
+<textarea
+  [class]="mergedClass"
+  [name]="name()"
+  [autocomplete]="autocomplete()"
+  [placeholder]="placeholder()"
+  [disabled]="disabled()"
+  (input)="handleInput($event)"
+  (blur)="handleBlur()"
+  [rows]="rows()"
+  >{{ value() }}</textarea
+>
