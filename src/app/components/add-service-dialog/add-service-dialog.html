@@ -1,0 +1,15 @@
+<div class="max-w-[550px]">
+  <ui-dialog-header>
+    <h1>Selecione o serviço</h1>
+  </ui-dialog-header>
+  <ui-dialog-content>
+    @for (service of services; track service.id) {
+      <div
+        class="last:border-none border-border border-b hover:bg-background/50 transition-colors flex justify-between items-center py-2 gap-4"
+      >
+        {{ service.description }}
+        <ui-button size="sm" (clicked)="selectService(service)">Adicionar</ui-button>
+      </div>
+    }
+  </ui-dialog-content>
+</div>

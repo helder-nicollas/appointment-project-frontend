@@ -51,13 +51,21 @@
   <section class="space-y-4">
     <h3 class="text-xl font-semibold">Serviços desejados</h3>
 
+    <ui-button (clicked)="openAddServiceDialog()">Adicionar serviço</ui-button>
+
+    @if (!formServices.length) {
+      <div class="flex items-center justify-center opacity-50 w-full flex-col gap-2">
+        <lucide-icon [img]="toolCaseIcon" class="w-10 h-10" />
+        <p class="text-xl font-medium">Nenhum serviço foi adicionado</p>
+      </div>
+    }
     <div class="grid grid-cols-4 gap-4">
-      @for (service of services; track service.id) {
+      @for (service of formServices.value; track service?.id) {
         <div
           class="bg-secondary max-w-60 px-4 py-3 rounded ring-1 ring-ring space-y-1 transition-all"
         >
           <p class="font-bold">
-            {{ service.description }}
+            {{ service?.description }}
           </p>
 
           <p>R$ 0,00</p>

@@ -5,6 +5,9 @@ import { ButtonVariants, buttonVariants } from './button-variants';
   selector: 'ui-button',
   imports: [],
   standalone: true,
+  host: {
+    class: 'block',
+  },
   templateUrl: './button.html',
 })
 export class Button {
