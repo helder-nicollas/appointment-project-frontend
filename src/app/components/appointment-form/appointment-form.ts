@@ -16,10 +16,11 @@ import { ToolCase, LucideAngularModule, Trash } from 'lucide-angular';
 import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
 import { Decimal } from 'decimal.js';
 
-type Service = {
+type FormService = {
   id: string;
-  description: string;
   basePrice: number;
+  description: string;
+  quantity: number;
 };
 
 @Component({
@@ -62,7 +63,7 @@ export class AppointmentForm implements FormState {
     endTime: ['', [Validators.required]],
     endDate: ['', [Validators.required]],
     description: ['', [Validators.required]],
-    services: this.fb.array<FormControl<Service>[]>([], { validators: [Validators.required] }),
+    services: this.fb.array<FormControl<FormService>[]>([], { validators: [Validators.required] }),
   });
   public toolCaseIcon = ToolCase;
   public trashIcon = Trash;
@@ -81,7 +82,14 @@ export class AppointmentForm implements FormState {
 
   private addService(service: Service | null) {
     if (service?.id) {
-      this.form.controls.services.push(new FormControl(service));
+      this.form.controls.services.push(
+        new FormControl({
+          id: service.id,
+          basePrice: service.basePrice,
+          description: service.description,
+          quantity: 1,
+        }),
+      );
     }
   }
 
@@ -90,7 +98,7 @@ export class AppointmentForm implements FormState {
   }
 
   public openAddServiceDialog() {
-    const dialogRef = this.dialog.open<Service | null>(AddServiceDialog);
+    const dialogRef = this.dialog.open<FormService | null>(AddServiceDialog);
 
     dialogRef.closed.subscribe((result) => this.addService(result || null));
   }

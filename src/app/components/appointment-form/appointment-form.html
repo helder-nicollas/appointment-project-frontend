@@ -65,10 +65,8 @@
         <div
           class="bg-secondary max-w-60 px-4 py-3 rounded ring-1 ring-ring transition-all h-36 flex-col flex justify-between"
         >
-          <div class="flex gap-2">
-            <p class="font-medium">
-              {{ service?.description }}
-            </p>
+          <div class="flex gap-2 justify-between">
+            <p class="font-medium">{{ service?.quantity }}x {{ service?.description }}</p>
             <span (click)="removeService($index)">
               <lucide-icon
                 [img]="trashIcon"
