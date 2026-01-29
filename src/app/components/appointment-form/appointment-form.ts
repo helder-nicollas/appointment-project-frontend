@@ -12,9 +12,10 @@ import { Textarea } from '../textarea/textarea';
 import { Label } from '../label/label';
 import { AddServiceDialog } from '../add-service-dialog/add-service-dialog';
 import { Dialog } from '@angular/cdk/dialog';
-import { ToolCase, LucideAngularModule, Trash } from 'lucide-angular';
+import { ToolCase, LucideAngularModule, Trash, Pencil } from 'lucide-angular';
 import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
 import { Decimal } from 'decimal.js';
+import { UpdateServiceDialog } from '../update-service-dialog/update-service-dialog';
 
 type FormService = {
   id: string;
@@ -67,6 +68,7 @@ export class AppointmentForm implements FormState {
   });
   public toolCaseIcon = ToolCase;
   public trashIcon = Trash;
+  public pencilIcon = Pencil;
   public formServices = toSignal(
     this.form.controls.services.valueChanges.pipe(startWith(this.form.controls.services.value)),
     { initialValue: this.form.controls.services.value },
@@ -77,7 +79,7 @@ export class AppointmentForm implements FormState {
       total = total.add(new Decimal(service!.basePrice));
     }
 
-    return total;
+    return total.toNumber();
   });
 
   private addService(service: Service | null) {
@@ -101,6 +103,14 @@ export class AppointmentForm implements FormState {
     const dialogRef = this.dialog.open<FormService | null>(AddServiceDialog);
 
     dialogRef.closed.subscribe((result) => this.addService(result || null));
+  }
+
+  public openUpdateServiceDialog(service: FormService) {
+    this.dialog.open(UpdateServiceDialog, {
+      data: {
+        ...service,
+      },
+    });
   }
 
   public submit() {

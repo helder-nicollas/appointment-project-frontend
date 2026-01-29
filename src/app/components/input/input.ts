@@ -7,6 +7,8 @@ import {
   signal,
   AfterViewInit,
   Renderer2,
+  effect,
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { twMerge } from 'tailwind-merge';
@@ -35,15 +37,23 @@ export class Input implements ControlValueAccessor, AfterViewInit {
   public type = input('');
   public id = input('');
   public placeholder = input('');
+  public defaultValue = input<string | number | undefined | null>('');
   public autocomplete = input('on');
-  public disabled = signal(false);
-  public value = signal('');
+  public disabled = input(false);
+  public value = signal(String(this.defaultValue()));
+  public blurred = output<string>();
   public onChange = (_: string) => {};
   public onTouched = () => {};
 
+  public constructor() {
+    effect(() => {
+      if (this.defaultValue()) this.value.set(String(this.defaultValue()));
+    });
+  }
+
   public get mergedClass() {
     return twMerge(
-      'border rounded-md py-2 px-2 block w-full focus-visible:ring-2 ring-ring outline-none border-border bg-input text-sm aria-invalid:border-danger',
+      'border rounded-md py-2 px-2 block w-full focus-visible:ring-2 ring-ring outline-none border-border bg-input text-sm aria-invalid:border-danger disabled:opacity-75',
       this.class(),
     );
   }
@@ -60,10 +70,6 @@ export class Input implements ControlValueAccessor, AfterViewInit {
     this.onTouched = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
-    this.disabled.set(isDisabled);
-  }
-
   public handleInput(event: Event) {
     const v = (event.target as HTMLInputElement).value;
     this.value.set(v);
@@ -72,6 +78,7 @@ export class Input implements ControlValueAccessor, AfterViewInit {
 
   public handleBlur() {
     this.onTouched();
+    this.blurred.emit(this.value());
   }
 
   public ngAfterViewInit() {
