@@ -3,10 +3,11 @@ import { DialogHeader } from '../dialog/dialog-header/dialog-header';
 import { DialogContent } from '../dialog/dialog-content/dialog-content';
 import { Button } from '../button/button';
 import { DialogRef } from '@angular/cdk/dialog';
+import { Input } from '../input/input';
 
 @Component({
   selector: 'add-service-dialog',
-  imports: [DialogHeader, DialogContent, Button],
+  imports: [DialogHeader, DialogContent, Button, Input],
   standalone: true,
   templateUrl: './add-service-dialog.html',
 })
@@ -57,12 +58,12 @@ export class AddServiceDialog {
     {
       id: 'srv-009',
       description: 'Treinamento técnico para equipes',
-      basePrice: 350.0,
+      basePrice: 350.33,
     },
     {
       id: 'srv-010',
       description: 'Otimização de performance de aplicações',
-      basePrice: 400.0,
+      basePrice: 400.67,
     },
   ];
 

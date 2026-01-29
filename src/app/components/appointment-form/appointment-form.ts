@@ -1,10 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Input } from '../input/input';
 import { Button } from '../button/button';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormState } from '../../types/form';
 import { Feedback } from '../feedback/feedback';
 import { FormErrorPipe } from '../../core/form-error-pipe';
@@ -12,7 +12,9 @@ import { Textarea } from '../textarea/textarea';
 import { Label } from '../label/label';
 import { AddServiceDialog } from '../add-service-dialog/add-service-dialog';
 import { Dialog } from '@angular/cdk/dialog';
-import { ToolCase, LucideAngularModule } from 'lucide-angular';
+import { ToolCase, LucideAngularModule, Trash } from 'lucide-angular';
+import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
+import { Decimal } from 'decimal.js';
 
 type Service = {
   id: string;
@@ -31,6 +33,7 @@ type Service = {
     Textarea,
     Label,
     LucideAngularModule,
+    FormatCurrencyPipe,
   ],
   templateUrl: './appointment-form.html',
 })
@@ -59,23 +62,37 @@ export class AppointmentForm implements FormState {
     endTime: ['', [Validators.required]],
     endDate: ['', [Validators.required]],
     description: ['', [Validators.required]],
-    services: this.fb.array<Service[]>([], { validators: [Validators.required] }),
+    services: this.fb.array<FormControl<Service>[]>([], { validators: [Validators.required] }),
+  });
+  public toolCaseIcon = ToolCase;
+  public trashIcon = Trash;
+  public formServices = toSignal(
+    this.form.controls.services.valueChanges.pipe(startWith(this.form.controls.services.value)),
+    { initialValue: this.form.controls.services.value },
+  );
+  public totalValue = computed(() => {
+    let total = new Decimal(0);
+    for (const service of this.formServices()) {
+      total = total.add(new Decimal(service!.basePrice));
+    }
+
+    return total;
   });
 
-  public toolCaseIcon = ToolCase;
-
   private addService(service: Service | null) {
-    console.log(service);
+    if (service?.id) {
+      this.form.controls.services.push(new FormControl(service));
+    }
+  }
+
+  public removeService(index: number) {
+    this.form.controls.services.removeAt(index);
   }
 
   public openAddServiceDialog() {
-    const dialogRef = this.dialog.open(AddServiceDialog);
+    const dialogRef = this.dialog.open<Service | null>(AddServiceDialog);
 
-    dialogRef.closed.subscribe((result) => this.addService(result as Service | null));
-  }
-
-  public get formServices() {
-    return this.form.controls.services;
+    dialogRef.closed.subscribe((result) => this.addService(result || null));
   }
 
   public submit() {
