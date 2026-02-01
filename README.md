@@ -8,8 +8,10 @@ Projeto de **agendamentos** criado com o objeto de adquirir conhecimento e exper
 * Signals (Reatividade Síncrona)
 * Observables (Controle de fluxo e reatividade assíncrona)
 * Property States
+* Input signals
+* Event Emitters
 * Services
-* Aperfeiçoamento em POO e Design Patterns (Principalemente Strategy e Dependency Injection), uma vez que o Angular foca em POO
+* Aperfeiçoamento em POO e Design Patterns (Principalmente **Strategy** e **Dependency Injection**).
 * Pipes
 * Directives
 * Testes
