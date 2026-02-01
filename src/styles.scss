@@ -44,9 +44,9 @@ body {
 
 
 .cdk-dialog-container {
-  @apply bg-secondary py-6 px-8 rounded-md border-border;
+  @apply bg-secondary rounded-md border-border border;
   display: block;
-  filter: drop-shadow(0 0 10px rgba(white, 0.5));
+  filter: drop-shadow(0 0 2px rgba(white, 0.5));
   animation: dialog-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

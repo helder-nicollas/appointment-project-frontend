@@ -51,27 +51,50 @@
   <section class="space-y-4">
     <h3 class="text-xl font-semibold">Serviços desejados</h3>
 
-    <div class="grid grid-cols-4 gap-4">
-      @for (service of services; track service.id) {
-        <div
-          class="bg-secondary max-w-60 px-4 py-3 rounded ring-1 ring-ring space-y-1 transition-all"
-        >
-          <p class="font-bold">
-            {{ service.description }}
-          </p>
+    <ui-button (clicked)="openAddServiceDialog()">Adicionar serviço</ui-button>
 
-          <p>R$ 0,00</p>
+    @if (!formServices().length) {
+      <div class="flex items-center justify-center opacity-50 w-full flex-col gap-2">
+        <lucide-icon [img]="toolCaseIcon" class="w-10 h-10" />
+        <p class="text-xl font-medium">Nenhum serviço foi adicionado</p>
+      </div>
+    }
+
+    <div class="grid grid-cols-4 gap-4">
+      @for (service of formServices(); track $index) {
+        <div
+          class="bg-secondary max-w-60 px-4 py-3 rounded ring-1 ring-ring transition-all h-36 flex-col flex justify-between"
+        >
+          <div class="flex gap-2 justify-between">
+            <p class="font-medium" (click)="openUpdateServiceDialog(service!)">
+              {{ service?.quantity }}x {{ service?.description }}
+            </p>
+
+            <span (click)="removeService($index)">
+              <lucide-icon
+                [img]="trashIcon"
+                class="h-4 w-4 cursor-pointer hover:text-danger transition-colors"
+              />
+            </span>
+          </div>
+
+          <div>
+            <p class="font-bold">
+              Total:
+              {{ service?.basePrice | formatCurrency }}
+            </p>
+          </div>
         </div>
       }
     </div>
 
     <div class="bg-secondary px-4 py-2 rounded flex justify-between">
       <p class="text-lg font-bold">Total</p>
-      <p class="text-lg font-bold">R$ 0,00</p>
+      <p class="text-lg font-bold">{{ totalValue() | formatCurrency }}</p>
     </div>
   </section>
 
-  <section class="flex justify-end gap-3">
+  <section class="flex justify-end gap-3 mt-3">
     <ui-button type="submit" variant="success">Save</ui-button>
   </section>
 </form>

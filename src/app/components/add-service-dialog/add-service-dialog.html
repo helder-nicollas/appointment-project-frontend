@@ -1,0 +1,18 @@
+<div class="w-[550px]">
+  <ui-dialog-header>
+    <h1>Selecione o serviço</h1>
+  </ui-dialog-header>
+  <ui-dialog-content>
+    <ui-input />
+    @for (service of query().data; track service.id) {
+      <button
+        type="button"
+        class="last:border-none border-border border-b hover:bg-background/50 transition-colors flex justify-between items-center py-3 gap-4 cursor-pointer w-full text-sm"
+        (dblclick)="selectService(service)"
+      >
+        {{ service.description }}
+        <span class="font-bold">{{ service.basePrice | formatCurrency }}</span>
+      </button>
+    }
+  </ui-dialog-content>
+</div>

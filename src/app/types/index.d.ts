@@ -27,3 +27,9 @@ interface Toast {
   id: string;
   message: string;
 }
+
+interface Service {
+  id: string;
+  description: string;
+  basePrice: number;
+}
