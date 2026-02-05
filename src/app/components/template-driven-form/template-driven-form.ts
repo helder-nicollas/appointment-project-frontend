@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Button } from '../button/button';
 import { Input } from '../input/input';
 import { Feedback } from '../feedback/feedback';
 import { Api } from '../../services/api';
+import { ButtonDirective } from '../../core/button-directive';
 
 @Component({
   selector: 'template-driven-form',
-  imports: [FormsModule, Button, Input, Feedback],
+  imports: [FormsModule, Input, Feedback, ButtonDirective],
   templateUrl: './template-driven-form.html',
   host: {
     class: 'col-span-3',

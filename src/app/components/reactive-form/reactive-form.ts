@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Feedback } from '../feedback/feedback';
 import { Input } from '../input/input';
-import { Button } from '../button/button';
 import { Api } from '../../services/api';
 import { finalize } from 'rxjs';
 import { UsersStore } from '../../services/users-store';
@@ -14,7 +13,7 @@ import { FormState } from '../../types/form';
 
 @Component({
   selector: 'reactive-form',
-  imports: [ReactiveFormsModule, Feedback, Input, Button, GradientCard, FormErrorPipe],
+  imports: [ReactiveFormsModule, Feedback, Input, GradientCard, FormErrorPipe],
   standalone: true,
   templateUrl: './reactive-form.html',
 })

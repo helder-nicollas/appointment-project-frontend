@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Api } from '../../services/api';
-import { Button } from '../button/button';
 import { GradientCard } from '../gradient-card/gradient-card';
 import { Feedback } from '../feedback/feedback';
 import { FormState } from '../../types/form';
@@ -20,16 +19,7 @@ import { ToastService } from '../../services/toast-service';
 @Component({
   selector: 'login-form',
   standalone: true,
-  imports: [
-    Input,
-    FormsModule,
-    ReactiveFormsModule,
-    Button,
-    GradientCard,
-    Feedback,
-    FormErrorPipe,
-    Label,
-  ],
+  imports: [Input, FormsModule, ReactiveFormsModule, GradientCard, Feedback, FormErrorPipe, Label],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })

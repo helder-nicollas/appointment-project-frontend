@@ -1,12 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { Button } from '../button/button';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Api } from '../../services/api';
 import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'ui-delete-appointment',
-  imports: [Button],
+  imports: [],
   templateUrl: './delete-appointment.html',
 })
 export class DeleteAppointment {

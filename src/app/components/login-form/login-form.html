@@ -22,8 +22,8 @@
         [message]="form.get('password')?.errors | formError"
       />
     </div>
-    <ui-button type="submit" variant="success" class="w-full" [disabled]="submitting()"
-      >Entrar</ui-button
-    >
+    <button uiButton type="submit" variant="success" class="w-full" [disabled]="submitting()">
+      Entrar
+    </button>
   </form>
 </ui-gradient-card>

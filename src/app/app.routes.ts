@@ -1,12 +1,25 @@
 import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { CreateAccount } from './pages/create-account/create-account';
-import { Appointments } from './pages/appointments/appointments';
-import { authGuard } from './guards/auth-guard';
 import { CreateAppointment } from './pages/create-appointment/create-appointment';
 import { MyAppointments } from './pages/my-appointments/my-appointments';
+import { AuthLayout } from './layouts/auth-layout/auth-layout';
 
 export const routes: Routes = [
+  {
+    path: 'app',
+    component: AuthLayout,
+    children: [
+      {
+        path: 'create-appointment',
+        component: CreateAppointment,
+      },
+      {
+        path: 'my-appointments',
+        component: MyAppointments,
+      },
+    ],
+  },
   {
     path: 'login',
     component: Login,
@@ -14,18 +27,5 @@ export const routes: Routes = [
   {
     path: 'create-account',
     component: CreateAccount,
-  },
-  {
-    path: 'create-appointment',
-    component: CreateAppointment,
-  },
-  {
-    path: 'my-appointments',
-    component: MyAppointments,
-  },
-  {
-    path: 'appointments',
-    component: Appointments,
-    canActivate: [authGuard],
   },
 ];

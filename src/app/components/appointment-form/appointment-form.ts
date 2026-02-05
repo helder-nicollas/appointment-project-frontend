@@ -7,7 +7,6 @@ import { FormState } from '../../types/form';
 import { Dialog } from '@angular/cdk/dialog';
 import { ToolCase, LucideAngularModule, Trash, Pencil, ArrowLeft } from 'lucide-angular';
 import { availabilityDates, services, timeSlots } from './utils';
-import { Button } from '../button/button';
 import { Label } from '../label/label';
 import { Textarea } from '../textarea/textarea';
 import Decimal from 'decimal.js';
@@ -15,7 +14,7 @@ import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
 
 @Component({
   selector: 'appointment-form',
-  imports: [ReactiveFormsModule, LucideAngularModule, Button, Label, Textarea, FormatCurrencyPipe],
+  imports: [ReactiveFormsModule, LucideAngularModule, Label, Textarea, FormatCurrencyPipe],
   templateUrl: './appointment-form.html',
 })
 export class AppointmentForm implements FormState {
