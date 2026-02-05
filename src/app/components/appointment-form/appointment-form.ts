@@ -1,42 +1,21 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Input } from '../input/input';
-import { Button } from '../button/button';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormState } from '../../types/form';
-import { Feedback } from '../feedback/feedback';
-import { FormErrorPipe } from '../../core/form-error-pipe';
-import { Textarea } from '../textarea/textarea';
-import { Label } from '../label/label';
-import { AddServiceDialog } from '../add-service-dialog/add-service-dialog';
 import { Dialog } from '@angular/cdk/dialog';
-import { ToolCase, LucideAngularModule, Trash, Pencil } from 'lucide-angular';
+import { ToolCase, LucideAngularModule, Trash, Pencil, ArrowLeft } from 'lucide-angular';
+import { availabilityDates, services, timeSlots } from './utils';
+import { Button } from '../button/button';
+import { Label } from '../label/label';
+import { Textarea } from '../textarea/textarea';
+import Decimal from 'decimal.js';
 import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
-import { Decimal } from 'decimal.js';
-import { UpdateServiceDialog } from '../update-service-dialog/update-service-dialog';
-
-type FormService = {
-  id: string;
-  basePrice: number;
-  description: string;
-  quantity: number;
-};
 
 @Component({
   selector: 'appointment-form',
-  imports: [
-    Input,
-    Button,
-    ReactiveFormsModule,
-    Feedback,
-    FormErrorPipe,
-    Textarea,
-    Label,
-    LucideAngularModule,
-    FormatCurrencyPipe,
-  ],
+  imports: [ReactiveFormsModule, LucideAngularModule, Button, Label, Textarea, FormatCurrencyPipe],
   templateUrl: './appointment-form.html',
 })
 export class AppointmentForm implements FormState {
@@ -44,6 +23,7 @@ export class AppointmentForm implements FormState {
   private fb = inject(FormBuilder);
   private dialog = inject(Dialog);
 
+  public page = 0;
   public submitted = signal(false);
   public submitting = signal(false);
   public query = toSignal(
@@ -59,16 +39,16 @@ export class AppointmentForm implements FormState {
     },
   );
   public form = this.fb.group({
-    startDate: ['', [Validators.required]],
-    startTime: ['', [Validators.required]],
-    endTime: ['', [Validators.required]],
-    endDate: ['', [Validators.required]],
-    description: ['', [Validators.required]],
-    services: this.fb.array<FormControl<FormService>[]>([], { validators: [Validators.required] }),
+    date: ['', [Validators.required]],
+    services: this.fb.array<FormControl<Service | null>>(
+      [new FormControl({ basePrice: 0, description: '', disabled: false, id: '' })],
+      {
+        validators: [Validators.required],
+      },
+    ),
+    time: ['', [Validators.required]],
+    description: [''],
   });
-  public toolCaseIcon = ToolCase;
-  public trashIcon = Trash;
-  public pencilIcon = Pencil;
   public formServices = toSignal(
     this.form.controls.services.valueChanges.pipe(startWith(this.form.controls.services.value)),
     { initialValue: this.form.controls.services.value },
@@ -82,35 +62,32 @@ export class AppointmentForm implements FormState {
     return total.toNumber();
   });
 
-  private addService(service: Service | null) {
-    if (service?.id) {
-      this.form.controls.services.push(
-        new FormControl({
-          id: service.id,
-          basePrice: service.basePrice,
-          description: service.description,
-          quantity: 1,
-        }),
-      );
-    }
+  public dates = availabilityDates;
+  public services = services;
+  public timeSlots = timeSlots;
+  public arrowIcon = ArrowLeft;
+
+  public toolCaseIcon = ToolCase;
+  public trashIcon = Trash;
+  public pencilIcon = Pencil;
+
+  public selectDate(date: string) {
+    this.form.controls.date.setValue(date);
+    this.page = 1;
   }
 
-  public removeService(index: number) {
-    this.form.controls.services.removeAt(index);
+  public selectService(service: Service) {
+    this.form.controls.services.controls[0].setValue(service);
+    this.page = 2;
   }
 
-  public openAddServiceDialog() {
-    const dialogRef = this.dialog.open<FormService | null>(AddServiceDialog);
-
-    dialogRef.closed.subscribe((result) => this.addService(result || null));
+  public selectTime(time: string) {
+    this.form.controls.time.setValue(time);
+    this.page = 3;
   }
 
-  public openUpdateServiceDialog(service: FormService) {
-    this.dialog.open(UpdateServiceDialog, {
-      data: {
-        ...service,
-      },
-    });
+  public decreasePage() {
+    this.page = this.page - 1;
   }
 
   public submit() {
@@ -119,38 +96,5 @@ export class AppointmentForm implements FormState {
     if (this.form.invalid) return;
 
     this.submitting.set(true);
-
-    let [year, month, day] = this.form.value.startDate!.split('-').map(Number);
-
-    const startDate = new Date(year, month - 1, day);
-    startDate.setHours(
-      Number(this.form.value.startTime!.split(':')[0]),
-      Number(this.form.value.startTime!.split(':')[1]),
-    );
-
-    [year, month, day] = this.form.value.endDate!.split('-').map(Number);
-
-    const endDate = new Date(year, month - 1, day);
-    endDate.setHours(
-      Number(this.form.value.endTime!.split(':')[0]),
-      Number(this.form.value.endTime!.split(':')[1]),
-    );
-    const data = {
-      ...this.form.value,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    };
-
-    this.api.post('/appointments', data).subscribe({
-      next: () => {
-        this.submitting.set(false);
-        this.submitted.set(false);
-        this.form.reset();
-      },
-      error: () => {
-        this.submitting.set(false);
-        this.submitted.set(false);
-      },
-    });
   }
 }

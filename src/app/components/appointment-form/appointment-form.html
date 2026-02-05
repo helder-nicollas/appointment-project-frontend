@@ -1,100 +1,64 @@
 <form action="" (ngSubmit)="submit()" [formGroup]="form">
-  <section class="my-3 space-y-2">
-    <div class="flex gap-4 w-full">
-      <div class="flex gap-2 w-full">
-        <div class="space-y-1 w-full">
-          <ui-label for="">Start date</ui-label>
-          <ui-input type="date" formControlName="startDate" />
-          <ui-feedback
-            [show]="!!form.get('startDate')?.errors && submitted()"
-            [message]="form.get('startDate')?.errors | formError"
-          />
-        </div>
-        <div class="space-y-1">
-          <ui-label for="">Time</ui-label>
-          <ui-input type="time" formControlName="startTime" />
-          <ui-feedback
-            [show]="!!form.get('startTime')?.errors && submitted()"
-            [message]="form.get('startTime')?.errors | formError"
-          />
-        </div>
+  <span
+    (click)="decreasePage()"
+    [attr.data-visible]="page > 0"
+    class="data-[visible=true]:block hidden cursor-pointer"
+  >
+    <lucide-icon [img]="arrowIcon" />
+  </span>
+  @if (page === 0) {
+    <section>
+      @for (date of dates; track date.availabilityDateId) {
+        <div (click)="selectDate(date.availabilityDateId)">{{ date.date.getDate() }}</div>
+      }
+    </section>
+  }
+
+  @if (page === 1) {
+    <section id="services">
+      @for (service of services; track service.id) {
+        <div (click)="selectService(service)">{{ service.description }}</div>
+      }
+      <div class="space-y-1">
+        <ui-label>Descrição adicional</ui-label>
+        <ui-textarea formControlName="description">{{ this.form.value.description }}</ui-textarea>
       </div>
-      <div class="flex gap-2 w-full">
-        <div class="space-y-1 w-full">
-          <ui-label for="">End date</ui-label>
-          <ui-input type="date" formControlName="endDate" />
-          <ui-feedback
-            [show]="!!form.get('endDate')?.errors && submitted()"
-            [message]="form.get('endDate')?.errors | formError"
-          />
-        </div>
-        <div class="space-y-1">
-          <ui-label for="">Time</ui-label>
-          <ui-input type="time" formControlName="endTime" />
-          <ui-feedback
-            [show]="!!form.get('endTime')?.errors && submitted()"
-            [message]="form.get('endTime')?.errors | formError"
-          />
-        </div>
+    </section>
+  }
+
+  @if (page === 2) {
+    <section id="times">
+      @for (time of timeSlots; track time.id) {
+        <div (click)="selectTime(time.id)">{{ time.label }}</div>
+      }
+    </section>
+  }
+
+  @if (page === 3) {
+    <section id="result">
+      <p>Cliente: Fulano</p>
+
+      <p>Data: {{ this.form.controls.date.value }}</p>
+      <p>Horário: {{ this.form.controls.time.value }}</p>
+      <div>
+        <p>Serviços</p>
+        {{ this.form.controls.services.getRawValue()[0]?.description }}
       </div>
-    </div>
-    <div class="space-y-1">
-      <ui-label for="">Description</ui-label>
-      <ui-textarea formControlName="description" placeholder="Ex. my event" rows="10" />
-      <ui-feedback
-        [show]="!!form.get('description')?.errors && submitted()"
-        [message]="form.get('description')?.errors | formError"
-      />
-    </div>
-  </section>
 
-  <section class="space-y-4">
-    <h3 class="text-xl font-semibold">Serviços desejados</h3>
-
-    <ui-button (clicked)="openAddServiceDialog()">Adicionar serviço</ui-button>
-
-    @if (!formServices().length) {
-      <div class="flex items-center justify-center opacity-50 w-full flex-col gap-2">
-        <lucide-icon [img]="toolCaseIcon" class="w-10 h-10" />
-        <p class="text-xl font-medium">Nenhum serviço foi adicionado</p>
-      </div>
-    }
-
-    <div class="grid grid-cols-4 gap-4">
-      @for (service of formServices(); track $index) {
-        <div
-          class="bg-secondary max-w-60 px-4 py-3 rounded ring-1 ring-ring transition-all h-36 flex-col flex justify-between"
-        >
-          <div class="flex gap-2 justify-between">
-            <p class="font-medium" (click)="openUpdateServiceDialog(service!)">
-              {{ service?.quantity }}x {{ service?.description }}
-            </p>
-
-            <span (click)="removeService($index)">
-              <lucide-icon
-                [img]="trashIcon"
-                class="h-4 w-4 cursor-pointer hover:text-danger transition-colors"
-              />
-            </span>
-          </div>
-
-          <div>
-            <p class="font-bold">
-              Total:
-              {{ service?.basePrice | formatCurrency }}
-            </p>
-          </div>
+      @if (this.form.value.description) {
+        <div>
+          <p>Descrição adicional</p>
+          <div>{{ this.form.controls.description.value }}</div>
         </div>
       }
-    </div>
+    </section>
+  }
 
-    <div class="bg-secondary px-4 py-2 rounded flex justify-between">
-      <p class="text-lg font-bold">Total</p>
-      <p class="text-lg font-bold">{{ totalValue() | formatCurrency }}</p>
-    </div>
-  </section>
-
-  <section class="flex justify-end gap-3 mt-3">
-    <ui-button type="submit" variant="success">Save</ui-button>
-  </section>
+  <div class="justify-between data-[visible=true]:flex hidden" [attr.data-visible]="page > 0">
+    <p class="font-bold">Total</p>
+    <p>{{ totalValue() | formatCurrency }}</p>
+  </div>
+  @if (page === 3) {
+    <ui-button>Confirmar agendamento</ui-button>
+  }
 </form>
