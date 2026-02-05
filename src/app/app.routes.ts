@@ -4,6 +4,7 @@ import { CreateAccount } from './pages/create-account/create-account';
 import { Appointments } from './pages/appointments/appointments';
 import { authGuard } from './guards/auth-guard';
 import { CreateAppointment } from './pages/create-appointment/create-appointment';
+import { MyAppointments } from './pages/my-appointments/my-appointments';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
   {
     path: 'create-appointment',
     component: CreateAppointment,
+  },
+  {
+    path: 'my-appointments',
+    component: MyAppointments,
   },
   {
     path: 'appointments',
