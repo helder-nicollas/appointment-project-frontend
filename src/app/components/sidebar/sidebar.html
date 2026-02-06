@@ -1,9 +1,0 @@
-<aside class="w-20 bg-secondary h-screen fixed inset-0 border-r border-border">
-  <nav class="px-3 py-2 flex flex-col items-center gap-2">
-    @for (route of routes; track route.path) {
-      <a routerLink="/app/my-appointments" class="w-full" uiButton variant="ghost" size="md">
-        <lucide-icon [img]="route.icon" class="h-5 w-5 flex-shrink-0" />
-      </a>
-    }
-  </nav>
-</aside>

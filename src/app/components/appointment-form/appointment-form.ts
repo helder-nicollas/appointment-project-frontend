@@ -9,8 +9,8 @@ import { ToolCase, LucideAngularModule, Trash, Pencil, ArrowLeft } from 'lucide-
 import { availabilityDates, services, timeSlots } from './utils';
 import { Label } from '../label/label';
 import { Textarea } from '../textarea/textarea';
-import Decimal from 'decimal.js';
 import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
+import Decimal from 'decimal.js';
 
 @Component({
   selector: 'appointment-form',
