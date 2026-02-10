@@ -42,6 +42,7 @@ export class Input implements ControlValueAccessor, AfterViewInit {
   public disabled = input(false);
   public value = signal(String(this.defaultValue()));
   public blurred = output<string>();
+  public changed = output<string>();
   public onChange = (_: string) => {};
   public onTouched = () => {};
 
@@ -74,6 +75,7 @@ export class Input implements ControlValueAccessor, AfterViewInit {
     const v = (event.target as HTMLInputElement).value;
     this.value.set(v);
     this.onChange(v);
+    this.changed.emit(v);
   }
 
   public handleBlur() {

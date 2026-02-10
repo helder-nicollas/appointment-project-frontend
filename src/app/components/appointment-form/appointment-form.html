@@ -1,49 +1,131 @@
 <form action="" (ngSubmit)="submit()" [formGroup]="form">
-  <span
-    (click)="decreasePage()"
-    [attr.data-visible]="page > 0"
-    class="data-[visible=true]:block hidden cursor-pointer"
-  >
-    <lucide-icon [img]="arrowIcon" />
-  </span>
   @if (page === 0) {
-    <section>
-      @for (date of dates; track date.availabilityDateId) {
-        <div (click)="selectDate(date.availabilityDateId)">{{ date.date.getDate() }}</div>
-      }
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold mb-2">Criar agendamento</h1>
+      <h2 class="opacity-50">Selecione o dia do agendamento</h2>
+    </div>
+    <section class="flex flex-col items-center">
+      <div class="flex flex-col items-center max-w-96">
+        <div class="grid grid-cols-4 items-center gap-4">
+          @for (date of dates; track date.availabilityDateId) {
+            <button
+              (click)="selectDate(date.availabilityDateId)"
+              uiButton
+              variant="ghost"
+              class="lg:min-w-20"
+            >
+              {{ date.date.getDate() }}
+            </button>
+          }
+        </div>
+        <button uiButton variant="success" class="w-full mt-4">Avançar</button>
+      </div>
     </section>
   }
 
   @if (page === 1) {
-    <section id="services">
-      @for (service of services; track service.id) {
-        <div (click)="selectService(service)">{{ service.description }}</div>
-      }
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold mb-2">Criar agendamento</h1>
+      <h2 class="opacity-50">Selecione o serviço desejado</h2>
+    </div>
+    <section id="services" class="space-y-4">
+      <div class="mb-4 lg:flex justify-center">
+        <ui-input
+          placeholder="Pesquisar serviço..."
+          class="min-w-80"
+          (changed)="setSearch($event)"
+        />
+      </div>
+      <div class="max-h-96 overflow-auto">
+        @if (!filteredServices().length) {
+          <div class="h-40 flex justify-center items-center opacity-50 flex-col gap-1">
+            <lucide-icon [img]="toolCaseIcon" class="h-10 w-10" />
+            <p class="text-xl text-center w-full">Nenhum serviço encontrado</p>
+          </div>
+        }
+        <div class="grid lg:grid-cols-4 items-center gap-4">
+          @for (service of filteredServices(); track service.id) {
+            <button
+              (click)="selectService(service)"
+              uiButton
+              variant="default"
+              class="flex-col gap-2 h-auto py-3 items-start"
+            >
+              <div class="flex justify-between w-full gap-2">
+                <span class="text-left font-medium">
+                  {{ service.description }}
+                </span>
+                @if (service.id === formServices()[0]?.id) {
+                  <lucide-icon [img]="checkIcon" class="w-4 h-4" />
+                }
+              </div>
+              <span>{{ service.basePrice | formatCurrency }}</span>
+            </button>
+          }
+        </div>
+      </div>
       <div class="space-y-1">
         <ui-label>Descrição adicional</ui-label>
-        <ui-textarea formControlName="description">{{ this.form.value.description }}</ui-textarea>
+        <ui-textarea
+          formControlName="description"
+          rows="10"
+          placeholder="Adicione alguma observação (se necessário)"
+          >{{ this.form.value.description }}</ui-textarea
+        >
       </div>
     </section>
   }
 
   @if (page === 2) {
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold mb-2">Criar agendamento</h1>
+      <h2 class="opacity-50">Informe o horário desejado</h2>
+    </div>
     <section id="times">
-      @for (time of timeSlots; track time.id) {
-        <div (click)="selectTime(time.id)">{{ time.label }}</div>
-      }
+      <div class="grid grid-cols-2 items-center gap-4">
+        @for (time of timeSlots; track time.id) {
+          <button (click)="selectTime(time.id)" uiButton variant="ghost" class="lg:min-w-20">
+            {{ time.label }}
+          </button>
+        }
+      </div>
     </section>
   }
 
   @if (page === 3) {
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold mb-2">Criar agendamento</h1>
+      <h2 class="opacity-50">Confira os dados do seu agendamento</h2>
+    </div>
     <section id="result">
-      <p>Cliente: Fulano</p>
+      <div class="grid grid-cols-2">
+        <p>Cliente: Fulano</p>
 
-      <p>Data: {{ this.form.controls.date.value }}</p>
-      <p>Horário: {{ this.form.controls.time.value }}</p>
-      <div>
-        <p>Serviços</p>
-        {{ this.form.controls.services.getRawValue()[0]?.description }}
+        <p>Data: {{ this.form.controls.date.value }}</p>
+        <p>Horário: {{ this.form.controls.time.value }}</p>
       </div>
+
+      <ui-table>
+        <caption>
+          Serviços
+        </caption>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">
+              {{ this.form.controls.services.getRawValue()[0]?.description }}
+            </td>
+            <td class="text-center">
+              {{ this.form.controls.services.getRawValue()[0]?.basePrice | formatCurrency }}
+            </td>
+          </tr>
+        </tbody>
+      </ui-table>
 
       @if (this.form.value.description) {
         <div>
@@ -54,11 +136,23 @@
     </section>
   }
 
-  <div class="justify-between data-[visible=true]:flex hidden" [attr.data-visible]="page > 0">
-    <p class="font-bold">Total</p>
-    <p>{{ totalValue() | formatCurrency }}</p>
+  <div
+    class="justify-between data-[visible=true]:flex hidden my-4 bg-secondary p-4 rounded border border-border"
+    [attr.data-visible]="page > 0"
+  >
+    <p>Total</p>
+    <p class="font-bold">{{ totalValue() | formatCurrency }}</p>
   </div>
-  @if (page === 3) {
-    <button uiButton>Confirmar agendamento</button>
-  }
+
+  <div class="flex gap-2 justify-between">
+    @if (page > 0) {
+      <button uiButton (click)="decreasePage()">Voltar</button>
+    }
+
+    @if (page === 3) {
+      <button uiButton variant="success">Confirmar agendamento</button>
+    } @else if (page > 0) {
+      <button uiButton variant="success" class="self-end" (click)="increasePage()">Avançar</button>
+    }
+  </div>
 </form>

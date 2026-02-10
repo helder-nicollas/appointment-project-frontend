@@ -4,23 +4,34 @@ import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormState } from '../../types/form';
-import { Dialog } from '@angular/cdk/dialog';
-import { ToolCase, LucideAngularModule, Trash, Pencil, ArrowLeft } from 'lucide-angular';
+import { ToolCase, LucideAngularModule, Trash, Pencil, Check } from 'lucide-angular';
 import { availabilityDates, services, timeSlots } from './utils';
 import { Label } from '../label/label';
 import { Textarea } from '../textarea/textarea';
 import { FormatCurrencyPipe } from '../../core/format-currency-pipe';
 import Decimal from 'decimal.js';
+import { ButtonDirective } from '../../core/button-directive';
+import { Input } from '../input/input';
+import { Table } from '../table/table';
 
 @Component({
   selector: 'appointment-form',
-  imports: [ReactiveFormsModule, LucideAngularModule, Label, Textarea, FormatCurrencyPipe],
+  imports: [
+    ReactiveFormsModule,
+    LucideAngularModule,
+    Label,
+    Textarea,
+    FormatCurrencyPipe,
+    ButtonDirective,
+    Input,
+    Table,
+  ],
   templateUrl: './appointment-form.html',
 })
 export class AppointmentForm implements FormState {
   private api = inject(Api);
   private fb = inject(FormBuilder);
-  private dialog = inject(Dialog);
+  private search = signal('');
 
   public page = 0;
   public submitted = signal(false);
@@ -52,6 +63,12 @@ export class AppointmentForm implements FormState {
     this.form.controls.services.valueChanges.pipe(startWith(this.form.controls.services.value)),
     { initialValue: this.form.controls.services.value },
   );
+  public filteredServices = computed(() =>
+    this.services.filter((service) =>
+      service.description.toLowerCase().includes(this.search().toLowerCase()),
+    ),
+  );
+
   public totalValue = computed(() => {
     let total = new Decimal(0);
     for (const service of this.formServices()) {
@@ -64,11 +81,15 @@ export class AppointmentForm implements FormState {
   public dates = availabilityDates;
   public services = services;
   public timeSlots = timeSlots;
-  public arrowIcon = ArrowLeft;
 
   public toolCaseIcon = ToolCase;
   public trashIcon = Trash;
   public pencilIcon = Pencil;
+  public checkIcon = Check;
+
+  public setSearch(value: string) {
+    this.search.set(value);
+  }
 
   public selectDate(date: string) {
     this.form.controls.date.setValue(date);
@@ -77,7 +98,6 @@ export class AppointmentForm implements FormState {
 
   public selectService(service: Service) {
     this.form.controls.services.controls[0].setValue(service);
-    this.page = 2;
   }
 
   public selectTime(time: string) {
@@ -87,6 +107,10 @@ export class AppointmentForm implements FormState {
 
   public decreasePage() {
     this.page = this.page - 1;
+  }
+
+  public increasePage() {
+    this.page = this.page + 1;
   }
 
   public submit() {

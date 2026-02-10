@@ -4,6 +4,9 @@ import { twMerge } from 'tailwind-merge';
 @Component({
   selector: 'ui-label',
   imports: [],
+  host: {
+    class: 'block',
+  },
   templateUrl: './label.html',
 })
 export class Label {

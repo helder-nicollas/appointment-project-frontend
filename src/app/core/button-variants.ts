@@ -9,7 +9,7 @@ const buttonVariants = tv({
         'bg-success text-success-foreground border-border hover:bg-success/75 focus-visible:bg-success/75 border',
       danger:
         'bg-danger text-danger-foreground border-border hover:bg-danger/75 focus-visible:bg-danger/75 border',
-      ghost: 'bg-transparent text-foreground hover:bg-background/50 focus-visible:bg-background/50',
+      ghost: 'bg-transparent text-foreground hover:bg-foreground/10 focus-visible:bg-foreground/10',
     },
     size: {
       sm: 'h-8 px-3 text-xs',
