@@ -97,7 +97,6 @@ export class AppointmentForm implements FormState {
 
   public selectDate(date: string) {
     this.form.controls.date.setValue(date);
-    this.page = 1;
   }
 
   public selectService(service: Service) {
@@ -106,7 +105,6 @@ export class AppointmentForm implements FormState {
 
   public selectTime(time: string) {
     this.form.controls.time.setValue(time);
-    this.page = 3;
   }
 
   public decreasePage() {

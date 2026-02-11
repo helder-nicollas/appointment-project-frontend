@@ -12,13 +12,16 @@
               (click)="selectDate(date.availabilityDateId)"
               uiButton
               variant="ghost"
-              class="lg:min-w-20 h-12"
+              class="lg:min-w-20 h-12 data-[select=true]:bg-foreground/10"
+              [attr.data-select]="date.availabilityDateId === form.controls.date.value"
             >
               {{ date.date.getDate() }}
             </button>
           }
         </div>
-        <button uiButton variant="success" class="w-full mt-4">Avançar</button>
+        <button uiButton variant="success" class="w-full mt-4" (click)="increasePage()">
+          Avançar
+        </button>
       </div>
     </section>
   }
@@ -85,7 +88,13 @@
     <section id="times">
       <div class="grid grid-cols-2 items-center gap-4">
         @for (time of timeSlots; track time.id) {
-          <button (click)="selectTime(time.id)" uiButton variant="ghost" class="lg:min-w-20 h-20">
+          <button
+            (click)="selectTime(time.id)"
+            uiButton
+            variant="ghost"
+            class="lg:min-w-20 h-20 data-[select=true]:bg-foreground/10"
+            [attr.data-select]="time.id === form.controls.time.value"
+          >
             {{ time.label }}
           </button>
         }
