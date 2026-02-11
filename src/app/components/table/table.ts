@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
+import { twMerge } from 'tailwind-merge';
 
 @Component({
   selector: 'ui-table',
@@ -7,4 +8,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrl: './table.css',
   encapsulation: ViewEncapsulation.None,
 })
-export class Table {}
+export class Table {
+  public class = input('');
+
+  public get mergedClass() {
+    return twMerge('ui-table', this.class());
+  }
+}

@@ -2,7 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'formatDate', standalone: true })
 export class FormatDate implements PipeTransform {
-  public transform(date: string) {
+  public transform(date: string | null) {
+    if (!date) return null;
+
     const formatted = new Intl.DateTimeFormat('pt-BR', {
       year: 'numeric',
       month: '2-digit',
@@ -11,7 +13,9 @@ export class FormatDate implements PipeTransform {
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
-    }).format(Date.parse(date));
+    })
+      .format(Date.parse(date))
+      .substring(0, 10);
 
     return formatted;
   }

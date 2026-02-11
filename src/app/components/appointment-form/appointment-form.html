@@ -70,8 +70,9 @@
           formControlName="description"
           rows="10"
           placeholder="Adicione alguma observação (se necessário)"
-          >{{ this.form.value.description }}</ui-textarea
         >
+          {{ this.form.value.description }}
+        </ui-textarea>
       </div>
     </section>
   }
@@ -98,14 +99,27 @@
       <h2 class="opacity-50">Confira os dados do seu agendamento</h2>
     </div>
     <section id="result">
-      <div class="grid grid-cols-2">
-        <p>Cliente: Fulano</p>
+      <div class="grid gap-2">
+        <p>
+          <strong>Cliente:</strong>
+          Fulano
+        </p>
 
-        <p>Data: {{ this.form.controls.date.value }}</p>
-        <p>Horário: {{ this.form.controls.time.value }}</p>
+        <p>
+          <strong>Data do agendamento:</strong>
+          {{ this.form.controls.date.value | formatDate }}
+        </p>
+        <p>
+          <strong>Horário do agendamento:</strong>
+          {{ this.form.controls.time.value }}
+        </p>
+        <p>
+          <strong>Cadastrado em:</strong>
+          {{}}
+        </p>
       </div>
 
-      <ui-table>
+      <ui-table class="mt-4">
         <caption>
           Serviços
         </caption>

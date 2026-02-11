@@ -13,6 +13,7 @@ import Decimal from 'decimal.js';
 import { ButtonDirective } from '../../core/button-directive';
 import { Input } from '../input/input';
 import { Table } from '../table/table';
+import { FormatDate } from '../../core/format-date-pipe';
 
 @Component({
   selector: 'appointment-form',
@@ -25,6 +26,7 @@ import { Table } from '../table/table';
     ButtonDirective,
     Input,
     Table,
+    FormatDate,
   ],
   templateUrl: './appointment-form.html',
 })
