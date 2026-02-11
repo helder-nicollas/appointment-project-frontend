@@ -12,6 +12,6 @@ export class Container {
 
   @HostBinding('class')
   get mergedClass() {
-    return twMerge('mx-auto container max-w-5xl min-h-screen block py-10 px-3', this.class());
+    return twMerge('mx-auto container max-w-4xl min-h-screen block pt-20 pb-10 px-3', this.class());
   }
 }

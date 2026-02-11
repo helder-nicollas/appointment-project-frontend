@@ -1,8 +1,17 @@
-<header class="bg-secondary border-b border-border">
-  <ui-container class="min-h-fit py-3 flex justify-between">
-    <button uiButton class="" size="sm">
-      <lucide-icon [img]="userIcon" class="w-4 h-4 gap-2" />
-      Perfil
-    </button>
+<header class="bg-secondary border-b border-border fixed z-10 w-full">
+  <ui-container class="min-h-fit py-3 flex justify-between items-center">
+    <h1 class="text-lg font-bold">Logo</h1>
+    <nav class="flex gap-2">
+      <button uiButton variant="ghost" class="gap-1" size="sm" routerLink="/app/my-appointments">
+        Agendamentos
+      </button>
+      <button uiButton variant="ghost" class="gap-1" size="sm" routerLink="/app/my-appointments">
+        Área administrativa
+      </button>
+      <button uiButton variant="ghost" class="gap-1" size="sm" routerLink="/app/profile">
+        <lucide-icon [img]="userIcon" class="w-4 h-4 gap-2" />
+        Perfil
+      </button>
+    </nav>
   </ui-container>
 </header>

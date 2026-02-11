@@ -4,7 +4,7 @@ const buttonVariants = tv({
   variants: {
     variant: {
       default:
-        'bg-muted text-foreground border-border/40 hover:bg-muted/75 focus-visible:bg-muted/75 border',
+        'bg-muted text-foreground border-border/40 hover:bg-muted/40 focus-visible:bg-muted/40 border',
       success:
         'bg-success text-success-foreground border-border hover:bg-success/75 focus-visible:bg-success/75 border',
       danger:

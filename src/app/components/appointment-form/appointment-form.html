@@ -12,7 +12,7 @@
               (click)="selectDate(date.availabilityDateId)"
               uiButton
               variant="ghost"
-              class="lg:min-w-20"
+              class="lg:min-w-20 h-12"
             >
               {{ date.date.getDate() }}
             </button>
@@ -85,7 +85,7 @@
     <section id="times">
       <div class="grid grid-cols-2 items-center gap-4">
         @for (time of timeSlots; track time.id) {
-          <button (click)="selectTime(time.id)" uiButton variant="ghost" class="lg:min-w-20">
+          <button (click)="selectTime(time.id)" uiButton variant="ghost" class="lg:min-w-20 h-20">
             {{ time.label }}
           </button>
         }
@@ -99,30 +99,42 @@
       <h2 class="opacity-50">Confira os dados do seu agendamento</h2>
     </div>
     <section id="result">
+      <div class="flex justify-between">
+        <h2 class="text-xl font-bold">Informações gerais</h2>
+        <button uiButton size="sm" class="gap-1" variant="ghost">
+          <lucide-icon [img]="printerIcon" class="w-4 h-4" />
+          Imprimir
+        </button>
+      </div>
+      <hr class="my-2 border-border" />
       <div class="grid gap-2">
         <p>
-          <strong>Cliente:</strong>
+          <small>Cliente:</small>
           Fulano
         </p>
 
         <p>
-          <strong>Data do agendamento:</strong>
+          <small>Data do agendamento:</small>
           {{ this.form.controls.date.value | formatDate }}
         </p>
         <p>
-          <strong>Horário do agendamento:</strong>
+          <small>Horário do agendamento:</small>
           {{ this.form.controls.time.value }}
         </p>
         <p>
-          <strong>Cadastrado em:</strong>
-          {{}}
+          <small>Cadastrado em:</small>
+          {{ currentDate | formatDate }}
+        </p>
+        <p>
+          <small>Endereço:</small>
+          {{ currentDate | formatDate }}
         </p>
       </div>
 
+      <h2 class="text-xl font-bold my-2">Seus serviços</h2>
+      <hr class="border-border my-2" />
+
       <ui-table class="mt-4">
-        <caption>
-          Serviços
-        </caption>
         <thead>
           <tr>
             <th>Descrição</th>
@@ -158,7 +170,7 @@
     <p class="font-bold">{{ totalValue() | formatCurrency }}</p>
   </div>
 
-  <div class="flex gap-2 justify-between">
+  <div class="flex gap-2 justify-end">
     @if (page > 0) {
       <button uiButton (click)="decreasePage()">Voltar</button>
     }

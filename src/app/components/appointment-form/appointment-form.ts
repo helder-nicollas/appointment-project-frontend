@@ -4,7 +4,7 @@ import { Api } from '../../services/api';
 import { map, startWith } from 'rxjs';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormState } from '../../types/form';
-import { ToolCase, LucideAngularModule, Trash, Pencil, Check } from 'lucide-angular';
+import { ToolCase, LucideAngularModule, Trash, Pencil, Check, Printer } from 'lucide-angular';
 import { availabilityDates, services, timeSlots } from './utils';
 import { Label } from '../label/label';
 import { Textarea } from '../textarea/textarea';
@@ -88,6 +88,8 @@ export class AppointmentForm implements FormState {
   public trashIcon = Trash;
   public pencilIcon = Pencil;
   public checkIcon = Check;
+  public currentDate = new Date(Date.now()).toISOString();
+  public printerIcon = Printer;
 
   public setSearch(value: string) {
     this.search.set(value);
